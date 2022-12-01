@@ -13,16 +13,21 @@
         "bootstrap": "~5.1.0"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "@tailwindcss/typography": "^0.5.0",
+        "alpinejs": "^3.0.6",
+        "autoprefixer": "^10.4.7",
         "axios": "^0.25",
         "browser-sync": "^2.27.7",
         "browser-sync-webpack-plugin": "2.3.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",
-        "postcss": "^8.1.14",
+        "postcss": "^8.4.14",
         "resolve-url-loader": "5.0.0",
         "rtlcss": "^3.0",
         "sass": "1.30.0",
-        "sass-loader": "12.1.0"
+        "sass-loader": "12.1.0",
+        "tailwindcss": "^3.1.0"
     }
 }

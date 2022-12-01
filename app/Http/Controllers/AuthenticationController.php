@@ -9,7 +9,9 @@ class AuthenticationController extends Controller
     // Login basic
     public function login_basic()
     {
+    
         $pageConfigs = ['blankPage' => true];
+        
 
         return view('/content/authentication/auth-login-basic', ['pageConfigs' => $pageConfigs]);
     }
