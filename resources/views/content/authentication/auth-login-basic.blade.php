@@ -42,9 +42,9 @@
  
 
        
-        <form class="auth-login-form mt-2" action=" " method="GET">
+        <form class="auth-login-form mt-2" method="POST" action="{{ route('login') }}">
           <div class="mb-1">
-            <label for="login-email" class="form-label">Email / Phone</label>
+            <x-jet-label  class="form-label" for="email" value="{{ __('Email/Phone') }}" />
             <input
               type="text"
               class="form-control"
@@ -56,10 +56,11 @@
               autofocus
             />
           </div>
- 
+        
           <div class="mb-1">
             <div class="d-flex justify-content-between">
-              <label class="form-label" for="login-password">Password</label>
+              <x-jet-label class="form-label" for="password" value="{{ __('Password') }}" />
+              
               <a href="{{url('auth/forgot-password-basic')}}">
                 <small class="hidden">Forgot Password?</small>
               </a>
@@ -80,10 +81,22 @@
           <div class="mb-1">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="remember-me" tabindex="3" />
-              <label class="form-check-label" for="remember-me"> Remember Me </label>
+              <span class="form-check-label">{{ __('Remember me') }}</span>
+              
             </div>
           </div>
-          <button class="btn btn-danger w-100 btn-session" tabindex="4">Iniciar Sesion</button>
+
+          <div class="flex items-center justify-end mt-4">
+            @if (Route::has('password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                  
+                </a>
+            @endif
+
+          <x-jet-button class="btn btn-danger w-100 btn-session">
+            {{ __('Iniciar Sesion') }}
+        </x-jet-button>
+        
         </form>
 
        
