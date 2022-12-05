@@ -43,13 +43,14 @@
 
        
         <form class="auth-login-form mt-2" method="POST" action="{{ route('login') }}">
+          @csrf
           <div class="mb-1">
             <x-jet-label  class="form-label" for="email" value="{{ __('Email/Phone') }}" />
             <input
               type="text"
               class="form-control"
               id="login-email"
-              name="login-email"
+              name="email"
               placeholder="john@example.com"
               aria-describedby="login-email"
               tabindex="1"
@@ -70,7 +71,7 @@
                 type="password"
                 class="form-control form-control-merge"
                 id="login-password"
-                name="login-password"
+                name="password"
                 tabindex="2"
                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                 aria-describedby="login-password"
