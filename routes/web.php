@@ -241,21 +241,16 @@ Route::get('/maps/leaflet', [ChartsController::class, 'maps_leaflet'])->name('ma
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
-
+// Rutas del proyecto de Asistencias
 
 Route::get('/', function () {
     // return view('auth/login');
     return redirect('redirects');
 });
 
+//  Routes Login
 Route::get('redirects',[LoginController::class, 'index'])->name('test');
-Route::post('redirects',[LoginController::class, 'index'])->name('login');
-    /*Route::middleware([
-        'auth:sanctum',
-        config('jetstream.auth_session'),
-        'verified'
-    ])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
-    });*/
+Route::post('login',[LoginController::class, 'index'])->name('login');
+
+// Ruta para traer la data de las areas
+Route::get('getAreas/areas',[\App\Http\Controllers\AdminController::class, 'getAreas'])->name('areas.get');

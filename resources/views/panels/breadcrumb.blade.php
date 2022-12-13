@@ -33,7 +33,7 @@
         <div class="dropdown-menu dropdown-menu-end">
           <a class="dropdown-item" href="{{url('app/todo')}}">
             <i class="me-1" data-feather="check-square"></i>
-            <span class="align-middle">Todo</span>
+            <span class="align-middle">Roles</span>
           </a>
           <a class="dropdown-item" href="{{url('app/chat')}}">
             <i class="me-1" data-feather="message-square"></i>

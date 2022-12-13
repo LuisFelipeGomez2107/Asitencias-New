@@ -180,6 +180,8 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         // custom theme menu provider
         App\Providers\MenuServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+
     ],
 
     /*

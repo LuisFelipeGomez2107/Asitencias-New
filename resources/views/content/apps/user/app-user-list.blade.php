@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'User List')
+{{-- @section('title', 'User List') --}}
 
 @section('vendor-style')
   {{-- Page Css files --}}
@@ -9,219 +9,355 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+  integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 @section('page-style')
   {{-- Page Css files --}}
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
 @endsection
+<style>
+  table {
+      display: block;
+      overflow-x: auto;
+  }
 
+  .static {
+      position: sticky;
+      left: 0;
+      background-color: white;
+  }
+
+  tbody tr .static {
+      background-color: white;
+  }
+
+  thead tr .static {
+      background-color: white;
+  }
+
+  .first-col {}
+
+  label.error {
+      font-size: .9vw !important;
+  }
+  </style>
 @section('content')
 <!-- users list start -->
 <section class="app-user-list">
-  <div class="row">
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">21,459</h3>
-            <span>Total Users</span>
-          </div>
-          <div class="avatar bg-light-primary p-50">
-            <span class="avatar-content">
-              <i data-feather="user" class="font-medium-4"></i>
-            </span>
-          </div>
+  <div class="container-fluid flex-wrap mt-3">
+    <div class="data">
+
+        <div class="d-flex flex-wrap " id="symbol">
+            <div class="d-flex flex-wrap flex-row-reverse bd-highlight">
+
+                <p>
+                <pre><span>  Solo una Evidencia | </span> </pre><i
+                    class="fas fa-exclamation-circle fas-solid showModal" style="color:#ff8c00;"
+                    id="evidence-icon"></i></p>
+            </div>
+            <div class="d-flex flex-wrap flex-row-reverse bd-highlight">
+
+                <p>
+                <pre><span>  Falta | </span> </pre><i class="fa-solid fa-xmark" style="color:red;"
+                    id="absence-icon"></i></p>
+            </div>
+            <div class="d-flex flex-wrap flex-row-reverse bd-highlight">
+
+                <p>
+                <pre><span>  Retardo | </span></pre> <i class="fa-solid fa-check" style="color:#ff9c00;"
+                    id="time-delay-icon"></i></p>
+            </div>
+            <div class="d-flex flex-wrap flex-row-reverse bd-highlight">
+
+                <p>
+                <pre><span> Asistencia | </span></pre> <i class="fa-solid fa-check" style="color:#4fc341;"
+                    id="attendance-icon"></i></p>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">4,567</h3>
-            <span>Paid Users</span>
-          </div>
-          <div class="avatar bg-light-danger p-50">
-            <span class="avatar-content">
-              <i data-feather="user-plus" class="font-medium-4"></i>
-            </span>
-          </div>
+        <div class="flex-wrap" id="form-date">
+
         </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">19,860</h3>
-            <span>Active Users</span>
-          </div>
-          <div class="avatar bg-light-success p-50">
-            <span class="avatar-content">
-              <i data-feather="user-check" class="font-medium-4"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">237</h3>
-            <span>Pending Users</span>
-          </div>
-          <div class="avatar bg-light-warning p-50">
-            <span class="avatar-content">
-              <i data-feather="user-x" class="font-medium-4"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- list and filter start -->
-  <div class="card">
-    <div class="card-body border-bottom">
-      <h4 class="card-title">Search & Filter</h4>
-      <div class="row">
-        <div class="col-md-4 user_role"></div>
-        <div class="col-md-4 user_plan"></div>
-        <div class="col-md-4 user_status"></div>
-      </div>
-    </div>
-    <div class="card-datatable table-responsive pt-0">
-      <table class="user-list-table table">
-        <thead class="table-light">
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Plan</th>
-            <th>Billing</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+  <div class="flex-wrap" id="form-date">
+    <form  id="form" method="POST">
+        @csrf
+        <div class="row">
+            <div class="col-6 col-lg-4">
+                <div class="form-group">
+                    <label for="dateInicio">Inicio</label>
+                    <input type="date" class="form-control" id="dateInicio" name="dateInicio">
+                </div>
+            </div>
+            <div class="col-6 col-lg-4">
+                <div class="form-group">
+                    <label for="dateFinal">Final</label>
+                    <input type="date" class="form-control" id="dateFinal" name="dateFinal">
+                </div>
+            </div>
+            @php
+            $user = Auth::user();
+            @endphp
+            @if ($user = $user->hasRole('Admin'))
+            <div class="col-4 col-lg-3">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Área</label>
+                    <select name="area" id="areasSelect" class="form-control">
+                        <option value=""> Seleccionar </option>
+                    </select>
+                </div>
+            </div>
+            @endif
+            <div class="col-1 d-flex align-items-end">
+                <div class="form-group ">
+                    <button type="submit" class="btn btn-primary" id="enviar">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</div>
+
       </table>
     </div>
-    <!-- Modal to add new user starts-->
-    <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in">
-      <div class="modal-dialog">
-        <form class="add-new-user modal-content pt-0">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-          <div class="modal-header mb-1">
-            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
-          </div>
-          <div class="modal-body flex-grow-1">
-            <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-              <input
-                type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
-                placeholder="John Doe"
-                name="user-fullname"
-              />
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-uname">Username</label>
-              <input
-                type="text"
-                id="basic-icon-default-uname"
-                class="form-control dt-uname"
-                placeholder="Web Developer"
-                name="user-name"
-              />
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-email">Email</label>
-              <input
-                type="text"
-                id="basic-icon-default-email"
-                class="form-control dt-email"
-                placeholder="john.doe@example.com"
-                name="user-email"
-              />
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-contact">Contact</label>
-              <input
-                type="text"
-                id="basic-icon-default-contact"
-                class="form-control dt-contact"
-                placeholder="+1 (609) 933-44-22"
-                name="user-contact"
-              />
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-company">Company</label>
-              <input
-                type="text"
-                id="basic-icon-default-company"
-                class="form-control dt-contact"
-                placeholder="PIXINVENT"
-                name="user-company"
-              />
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="country">Country</label>
-              <select id="country" class="select2 form-select">
-                <option value="Australia">USA</option>
-                <option value="Bangladesh">Bangladesh</option>
-                <option value="Belarus">Belarus</option>
-                <option value="Brazil">Brazil</option>
-                <option value="Canada">Canada</option>
-                <option value="China">China</option>
-                <option value="France">France</option>
-                <option value="Germany">Germany</option>
-                <option value="India">India</option>
-                <option value="Indonesia">Indonesia</option>
-                <option value="Israel">Israel</option>
-                <option value="Italy">Italy</option>
-                <option value="Japan">Japan</option>
-                <option value="Korea">Korea, Republic of</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Philippines">Philippines</option>
-                <option value="Russia">Russian Federation</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Thailand">Thailand</option>
-                <option value="Turkey">Turkey</option>
-                <option value="Ukraine">Ukraine</option>
-                <option value="United Arab Emirates">United Arab Emirates</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
-              </select>
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="user-role">User Role</label>
-              <select id="user-role" class="select2 form-select">
-                <option value="subscriber">Subscriber</option>
-                <option value="editor">Editor</option>
-                <option value="maintainer">Maintainer</option>
-                <option value="author">Author</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div class="mb-2">
-              <label class="form-label" for="user-plan">Select Plan</label>
-              <select id="user-plan" class="select2 form-select">
-                <option value="basic">Basic</option>
-                <option value="enterprise">Enterprise</option>
-                <option value="company">Company</option>
-                <option value="team">Team</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary me-1 data-submit">Submit</button>
-            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- Modal to add new user Ends-->
+    <div class="d-flex flex-row-reverse bd-highlight" id="btn-excel">
+      @if (isset($dateInitial))
+      @php
+      if($requestArea==null)$requestArea=0;
+      else $requestArea = $requestArea;
+      @endphp
+      <a href="{{(['requestDateInicio' => $requestDateInicio, 'requestDateFinal'=> $requestDateFinal, 'requestArea' => $requestArea])}}"
+          class="btn btn-primary btn-lg active" role="button" aria-pressed="true"
+          title="Descargar Reporte Excel"><i class="fas fa-arrow-circle-down"></i></a>
+      @else
+      <a href="" class="btn btn-primary btn-lg active" role="button"
+          aria-pressed="true" title="Descargar Reporte Excel"><i class="fas fa-arrow-circle-down"></i></a>
+      @endif
+
   </div>
-  <!-- list and filter end -->
+  <div class="mt-3">
+    @if (isset($meses))
+    <div>
+        <div class="col-6">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseThree">
+                            Meses Desplegados
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                        aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <div class="row">
+                                @foreach ($meses as $item)
+                                <div class="col-4 months" style="cursor:pointer;"
+                                    data-value="{{$item['nombre']}}">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <span id="color_front"
+                                                style="border-radius: 50%;width: 20px;height: 20px;display:inline-block;background-color:{{$item['color']['color']}};"></span>
+                                        </div>
+                                        <div class="col-10">{{$item['nombre']}}</div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="static" scope="col">Nombre</th>
+                @if (isset($countMonths))
+                @if (isset($meses))
+                @php
+                $contador = 1;
+                $rcv = 0;
+                @endphp
+                @foreach ($meses as $item)
+                @php
+                @endphp
+                @for ($i = $item['primerDia']; $i <= $item['ultimoDia']; $i++) @if($contador==1) @if($i==1) <th
+                    style="border-color:{{$item['color']['color']}}; border-bottom-width: medium;"
+                    class="first-col">{{$i}}</th>
+                    @elseif($i == $item['ultimoDia'])
+                    <th style="border-color:{{$item['color']['color']}}; border-bottom-width: medium;"
+                        id="{{$item['nombre']}}">{{$i}}</th>
+                    @else
+                    <th style="border-color:{{$item['color']['color']}}; border-bottom-width: medium;">{{$i}}
+                    </th>
+                    @endif
+                    @else
+                    @if($i == 1)
+                    <th style="border-color:{{$item['color']['color']}}; border-bottom-width: medium;">{{$i}}
+                    </th>
+                    @elseif($i == $item['ultimoDia'])
+                    <th style="border-color:{{$item['color']['color']}}; border-bottom-width: medium;"
+                        id="{{$item['nombre']}}">{{$i}}</th>
+                    @else
+                    <th style="border-color:{{$item['color']['color']}}; border-bottom-width: medium;">{{$i}}
+                    </th>
+                    @endif
+                    @endif
+                    @endfor
+                    @php
+                    $contador++;
+                    $rcv++;
+                    @endphp
+                    @endforeach
+                    @else
+                    @for ($i = 1; $i <= $lastDayMonth; $i++) @if($i==1) <th style="border-color:;"
+                        class="first-col" scope="col">{{$i}}</th>
+                        @else
+                        <th scope="col" style="border-color:;">{{$i}}</th>
+                        @endif
+                        @endfor
+                        @endif
+                        @endif
+            </tr>
+        </thead>
+        <tbody>
+            <div>
+                @foreach ($usuarios as $users)
+
+                <tr>
+                    <td class="static" scope="row">{{ $users->name }}</td>
+                    @endforeach
+                    {{-- @if (isset($meses))
+                    @php
+                    $contador = 1;
+                    $rcv = 0;
+                    @endphp
+                    @foreach ($meses as $item)
+                    @for ($i = $item['primerDia']; $i <= $item['ultimoDia']; $i++) @php
+                        $date=date("Y-".$item['mes']."-".$i); $date=date("Y-m-d", strtotime($date)); @endphp
+                        @php $countImages=TestFacades::countImages($date, $users->id);
+                        if($countImages == 0){
+                        echo '<td class="first-col" style="background-color:'.$item['color']['rgba'].'"><i
+                                class="fa-solid fa-xmark showModal  " style="color:red;"></i></td>';
+                        }
+                        elseif ($countImages==1) {
+                        echo '<td class="first-col" style="background-color:'.$item['color']['rgba'].'"><i
+                                class="fa-solid fa-check showModal" style="color:#4fc341; cursor:pointer;"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                data-user-id='.$users->id.' data-date='.$date.'></i></td>';
+                        }
+                        elseif ($countImages==2) {
+                        echo '<td class="first-col" style="background-color:'.$item['color']['rgba'].'"><i
+                                class="fa-solid fa-check showModal" style="color:#ff9c00; cursor:pointer;"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                data-user-id='.$users->id.' data-date='.$date.'></i></td>';
+                        }
+                        elseif($countImages == 4){
+                        echo '<td style="background-color:'.$item['color']['rgba'].'"><i
+                                class="fa-solid fa-check-double showModal"
+                                style="color:#4fc341; cursor:pointer;" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" data-user-id='.$users->id.'
+                                data-date='.$date.'></i></td>';
+                        }
+                        elseif($countImages == 5){
+                        echo '<td style="background-color:'.$item['color']['rgba'].'"><i
+                                class="fas fa-calendar-check showJustificarFalta"
+                                style="color:#4fc341; cursor:pointer;" data-user-id='.$users->id.'
+                                data-date='.$date.' data-bs-toggle="modal"
+                                data-bs-target="#modalShowJustificarFaltas"></i></td>';
+                        }
+                        elseif ($countImages == 6) {
+                        echo '<td style="background-color:'.$item['color']['rgba'].'"><i
+                                class="fas fa-exclamation-circle showModal"
+                                style="color:#ff8c00;cursor:pointer;" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" data-user-id='.$users->id.'
+                                data-date='.$date.'></i></td>';
+                        }
+                        else{
+                        echo '<td class="first-col" style="background-color:'.$item['color']['rgba'].'">-</td>';
+                        }
+                        @endphp
+                        @php
+                        $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
+                        @endphp
+                        @endfor
+                        @php
+                        $contador++;
+                        $rcv++;
+                        @endphp
+                        @endforeach
+                        @else
+                        @php
+                        $date = date("Y-m-01");
+                        $out = null;
+                        for ($i = 1; $i <= $lastDayMonth; $i++) { $countImages=TestFacades::countImages($date,
+                            $users->id);
+                            if($countImages == 0){
+                            echo '<td class="first-col"><i class="fa-solid fa-xmark justificafalta"
+                                    style="color:red; cursor:pointer;" data-toggle="modal"
+                                    data-target="#modalJustificarFaltas" data-user-id='.$users->id.'
+                                    data-date='.$date.'></i></td>';
+                            // $boton = "<i class='fa-solid fa-xmark' style='color:red;'></i>";
+                            }
+                            elseif ($countImages==1) {
+                            echo '<td class="first-col"><i class="fa-solid fa-check showModal"
+                                    style="color:#4fc341; cursor:pointer;" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-user-id='.$users->id.'
+                                    data-date='.$date.'></i></td>';
+                            // $boton = "<i class='fa-solid fa-check' style='color:#4fc341;''></i>";
+                                                    }
+                                                    elseif ($countImages==2) {
+                                                        echo ' <td class="first-col"><i
+                                    class="fa-solid fa-check showModal" style="color:#ff9c00; cursor:pointer;"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    data-user-id='.$users->id.' data-date='.$date.'></i></td>';
+                                // $boton = "<i class='fa-solid fa-check' style='color:#ff9c00;'></i>";
+                                }
+                                elseif($countImages == 4){
+                                echo '<td><i class="fa-solid fa-check-double showModal"
+                                        style="color:#4fc341; cursor:pointer;" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-user-id='.$users->id.'
+                                        data-date='.$date.'></i></td>';
+                                }
+                                elseif($countImages == 5){
+                                echo '<td><i class="fas fa-calendar-check showJustificarFalta"
+                                        style="color:#4fc341;cursor:pointer;" data-user-id='.$users->id.'
+                                        data-date='.$date.' data-bs-toggle="modal"
+                                        data-bs-target="#modalShowJustificarFaltas"></i></td>';
+                                }
+                                elseif ($countImages == 6) {
+                                echo '<td><i class="fas fa-exclamation-circle fas-solid showModal"
+                                        style="color:#ff8c00; cursor:pointer;" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-user-id='.$users->id.'
+                                        data-date='.$date.'></i></td>';
+                                }
+                                else{
+                                echo '<td class="first-col">-</td>';
+                                }
+                                $date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
+                                }
+                                @endphp
+                                @endif
+                </tr>
+                @endforeach
+            </div> --}}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</div>
+
 </section>
 <!-- users list ends -->
 @endsection
@@ -243,9 +379,32 @@
   <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/forms/cleave/cleave.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/forms/cleave/addons/cleave-phone.us.js')) }}"></script>
-@endsection
+  @endsection
 
-@section('page-script')
+  @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset(mix('js/scripts/pages/app-user-list.js')) }}"></script>
+
+  <script>
+      $(function() {
+
+          let route = "{{ route('areas.get') }}";
+          $.ajax({
+        type: 'GET', //THIS NEEDS TO BE GET
+        url: route,
+        success: function(data) {
+            data.forEach(function(element) {
+                $("#areasSelect").append(
+                    "<option class='super' value='" + element.id +
+                    "'>" + element.name + "</option>")
+            });
+          },
+          error: function() {
+              console.log(data);
+            }
+          })
+        });
+
+        </script>
+
 @endsection

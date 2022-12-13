@@ -5,12 +5,7 @@
       "icon": "home",
       "slug": "",
       "submenu": [
-        {
-          "url": "dashboard/analytics",
-          "name": "Analytics",
-          "icon": "activity",
-          "slug": "dashboard-analytics"
-        },
+      
         {
           "url": "dashboard/ecommerce",
           "name": "eCommerce",
@@ -19,30 +14,7 @@
         }
       ]
     },
-    {
-      "name": "Apps",
-      "icon": "package",
-      "dropdown": "1",
-      "slug": "",
-      "submenu": [
-        {
-          "url": "app/email",
-          "name": "Email",
-          "icon": "mail",
-          "slug": "app-email"
-        },
-        {
-          "url": "app/chat",
-          "name": "Chat",
-          "icon": "message-square",
-          "slug": "app-chat"
-        },
-        {
-          "url": "app/todo",
-          "name": "Todo",
-          "icon": "check-square",
-          "slug": "app-todo"
-        },
+  
         {
           "url": "app/calendar",
           "name": "Calendar",

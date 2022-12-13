@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Images;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
+// use Spatie\Permission\Models\Role;
+
 
 class AppsController extends Controller
 {
@@ -49,8 +57,53 @@ class AppsController extends Controller
     // User List Page
     public function user_list()
     {
-        $pageConfigs = ['pageHeader' => false];
-        return view('/content/apps/user/app-user-list', ['pageConfigs' => $pageConfigs]);
+
+
+
+        $user =Auth::user();
+        if($user->hasRole('Admin')){
+            $usuarios = User::join('model_has_roles','users.id','model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', 'roles.id')
+                ->join('users_has_status', 'users.id','users_has_status.user_id')
+                ->where('users_has_status.status',1)
+                ->where('roles.name', '!=', 'Admin')
+                ->where('roles.name', '!=', 'Supervisor')
+                ->select('users.name as name','users.id as id')
+                ->get();
+
+
+        }else{
+            $usuarios = User::join('model_has_roles','users.id','model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', 'roles.id')
+                ->join('users_has_status', 'users.id','users_has_status.user_id')
+                ->where('users_has_status.status',1)
+                ->where('roles.name', '!=', 'Admin')
+                ->where('roles.name', '!=', 'Supervisor')
+                ->where('users.areas_id', $user->areas_id)
+                ->select('users.name as name','users.id as id')
+
+                ->get();
+        }
+
+
+        $fI = date("Y-m-01");
+        $fF = date("Y-m-t");
+        // Dates
+        foreach($usuarios as $user){
+            $images = Images::join('users', 'users.id','images.user_id')
+            ->whereBetween('images.created_at', [$fI, $fF])
+            ->select('images.name','images.id as imageId','images.user_id','images.created_at')
+            ->get();
+
+        }
+
+        $lastDayMonth = date('t', strtotime(date('Y-m-d')));
+        $countMonths = 0;
+
+        return view('/content/apps/user/app-user-list', compact('usuarios','lastDayMonth','countMonths'));
+
+
+
     }
 
     // User Account Page

@@ -54,18 +54,18 @@
             data-feather="menu"></i></a></li>
     </ul>
     <ul class="nav navbar-nav bookmark-icons">
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/email') }}"
+      {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/email') }}"
           data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon"
             data-feather="mail"></i></a></li>
       <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/chat') }}"
           data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon"
-            data-feather="message-square"></i></a></li>
+            data-feather="message-square"></i></a></li> --}}
       <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/calendar') }}"
           data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon"
             data-feather="calendar"></i></a></li>
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/todo') }}"
+      {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/todo') }}"
           data-bs-toggle="tooltip" data-bs-placement="bottom" title="Todo"><i class="ficon"
-            data-feather="check-square"></i></a></li>
+            data-feather="check-square"></i></a></li> --}}
     </ul>
     <ul class="nav navbar-nav">
       <li class="nav-item d-none d-lg-block">
@@ -95,11 +95,11 @@
         <a class="dropdown-item" href="{{ url('lang/fr') }}" data-language="fr">
           <i class="flag-icon flag-icon-fr"></i> French
         </a>
-        <a class="dropdown-item" href="{{ url('lang/de') }}" data-language="de">
+        {{-- <a class="dropdown-item" href="{{ url('lang/de') }}" data-language="de">
           <i class="flag-icon flag-icon-de"></i> German
         </a>
         <a class="dropdown-item" href="{{ url('lang/pt') }}" data-language="pt">
-          <i class="flag-icon flag-icon-pt"></i> Portuguese
+          <i class="flag-icon flag-icon-pt"></i> Portuguese --}}
         </a>
       </div>
     </li>
@@ -114,18 +114,18 @@
         <ul class="search-list search-list-main"></ul>
       </div>
     </li>
-    <li class="nav-item dropdown dropdown-cart me-25">
+    {{-- <li class="nav-item dropdown dropdown-cart me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
         <i class="ficon" data-feather="shopping-cart"></i>
         <span class="badge rounded-pill bg-primary badge-up cart-item-count">6</span>
-      </a>
+      </a> --}}
       <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
-        <li class="dropdown-menu-header">
+        {{-- <li class="dropdown-menu-header">
           <div class="dropdown-header d-flex">
             <h4 class="notification-title mb-0 me-auto">My Cart</h4>
             <div class="badge rounded-pill badge-light-primary">4 Items</div>
           </div>
-        </li>
+        </li> --}}
         <li class="scrollable-container media-list">
           <div class="list-item align-items-center">
             <img class="d-block rounded me-1" src="{{ asset('images/pages/eCommerce/1.png') }}" alt="donuts"
@@ -225,11 +225,11 @@
         </li>
       </ul>
     </li>
-    <li class="nav-item dropdown dropdown-notification me-25">
+    {{-- <li class="nav-item dropdown dropdown-notification me-25">
       <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
         <i class="ficon" data-feather="bell"></i>
         <span class="badge rounded-pill bg-danger badge-up">5</span>
-      </a>
+      </a> --}}
       <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
         <li class="dropdown-menu-header">
           <div class="dropdown-header d-flex">
@@ -338,7 +338,7 @@
             @if (Auth::check())
               {{ Auth::user()->name }}
             @else
-              John Doe
+
             @endif
           </span>
           <span class="user-status">
@@ -347,7 +347,7 @@
         </div>
         <span class="avatar">
           <img class="round"
-            src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('images/portrait/small/avatar-s-11.jpg') }}"
+            src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('images/icons/logo-fay.png') }}"
             alt="avatar" height="40" width="40">
           <span class="avatar-status-online"></span>
         </span>
@@ -368,7 +368,7 @@
           <i class="me-50" data-feather="settings"></i> Settings
         </a>
 
-        @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
+        {{-- @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
           <div class="dropdown-divider"></div>
           <h6 class="dropdown-header">Manage Team</h6>
           <div class="dropdown-divider"></div>
@@ -388,13 +388,13 @@
           </h6>
           <div class="dropdown-divider"></div>
           @if (Auth::user())
-            @foreach (Auth::user()->allTeams() as $team)
+            @foreach (Auth::user()->allTeams() as $team) --}}
               {{-- Below commented code read by artisan command while installing jetstream. !! Do not remove if you want to use jetstream. --}}
 
               {{-- <x-jet-switchable-team :team="$team" /> --}}
-            @endforeach
-          @endif
-        @endif
+            {{-- @endforeach --}}
+          {{-- @endif
+        @endif --}}
         @if (Auth::check())
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

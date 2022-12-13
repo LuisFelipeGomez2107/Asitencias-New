@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            {{-- <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <!-- Team Settings -->
-                                    <x-jet-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
+                                    <x-jet-dropdown-link href="{{ route('teams.show', Auth::user()->id) }}">
                                         {{ __('Team Settings') }}
                                     </x-jet-dropdown-link>
 
@@ -188,7 +188,7 @@
                     </div>
 
                     <!-- Team Settings -->
-                    <x-jet-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
+                    <x-jet-responsive-nav-link href="{{ route('teams.show', Auth::user()->id) }}" :active="request()->routeIs('teams.show')">
                         {{ __('Team Settings') }}
                     </x-jet-responsive-nav-link>
 
@@ -212,4 +212,4 @@
             </div>
         </div>
     </div>
-</nav>
+</nav> --}}
