@@ -60,8 +60,8 @@ $(window).on('load', function () {
   // On load Toast
   setTimeout(function () {
     toastr['success'](
-      'You have successfully logged in to Vuexy. Now you can start to explore!',
-      '👋 Welcome John Doe!',
+      'Has Iniciado Sesion Correctamente a Fay-Web. Ahora puedes comenzar a Explorar!',
+      '👋 Bienvenido !',
       {
         closeButton: true,
         tapToDismiss: false,

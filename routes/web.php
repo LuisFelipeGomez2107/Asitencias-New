@@ -252,5 +252,4 @@ Route::get('/', function () {
 Route::get('redirects',[LoginController::class, 'index'])->name('test');
 Route::post('login',[LoginController::class, 'index'])->name('login');
 
-// Ruta para traer la data de las areas
-Route::get('getAreas/areas',[\App\Http\Controllers\AdminController::class, 'getAreas'])->name('areas.get');
+

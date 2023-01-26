@@ -34,11 +34,12 @@ $(window).on('load', function () {
   var salesVisitChart;
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
+  
   // On load Toast
   setTimeout(function () {
     toastr['success'](
-      'You have successfully logged in to Vuexy. Now you can start to explore!',
-      '👋 Welcome John Doe!',
+      'Has Iniciado Sesion Correctamente a Fay-Web. Ahora puedes comenzar a Explorar!',
+      '👋 Bienvenido !',
       {
         closeButton: true,
         tapToDismiss: false,

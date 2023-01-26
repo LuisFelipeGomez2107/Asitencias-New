@@ -35,7 +35,7 @@ class LoginController extends Controller
             $roleNames = $user->getRoleNames();
             // dd( $roleNames);
             if($roleNames[0] =='Admin'){
-                return redirect()->route('app-user-list');
+                return redirect()->route('dashboard-analytics');
 
 
             }
@@ -44,13 +44,13 @@ class LoginController extends Controller
 
             }
             if($roleNames[0] =='Supervisor'){
-                return redirect()->route('supervisor.index');
+                return redirect()->route('dashboard-ecommerce');
             }
             if($roleNames[0] == "SupervisorAsis"){
                 return  view('redirect');
             }
         }else {
-            return redirect('auth/login-basic');
+            return redirect('auth/login-cover');
         }
     }
 

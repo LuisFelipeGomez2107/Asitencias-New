@@ -84,10 +84,10 @@
   </div>
   <ul class="nav navbar-nav align-items-center ms-auto">
     <li class="nav-item dropdown dropdown-language">
-      <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true">
+      {{-- <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true">
         <i class="flag-icon flag-icon-us"></i>
-        <span class="selected-language">English</span>
-      </a>
+        <span class="selected-language">ESPAÑOL</span>
+      </a> --}}
       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag">
         <a class="dropdown-item" href="{{ url('lang/en') }}" data-language="en">
           <i class="flag-icon flag-icon-us"></i> English
@@ -109,7 +109,7 @@
           data-feather="search"></i></a>
       <div class="search-input">
         <div class="search-input-icon"><i data-feather="search"></i></div>
-        <input class="form-control input" type="text" placeholder="Explore Vuexy..." tabindex="-1" data-search="search">
+        <input class="form-control input" type="text" placeholder="Explora en Fay-Web..." tabindex="-1" data-search="search">
         <div class="search-input-close"><i data-feather="x"></i></div>
         <ul class="search-list search-list-main"></ul>
       </div>
@@ -342,7 +342,7 @@
             @endif
           </span>
           <span class="user-status">
-            Admin
+           {{ Auth::user()->name }}
           </span>
         </div>
         <span class="avatar">
