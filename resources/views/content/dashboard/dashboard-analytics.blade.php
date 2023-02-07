@@ -79,55 +79,72 @@
 
             </div>
 
-           {{-- Filtros de consulta --}}
-           <div class="flex-wrap" id="form-date">
-            <form action="{{ route('dashboard-analytics') }}" id="form" method="GET">
+            {{-- Filtros de consulta --}}
+            <div class="flex-wrap" id="form-date">
+                <form action="{{ route('dashboard-analytics') }}" id="form" method="GET">
 
-                <div class="row">
-                    <div class="col-6 col-lg-4">
-                        <div class="form-group">
-                            <label for="dateInicio">Inicio</label>
-                            <input type="date" class="form-control" id="dateInicio" name="dateInicio">
+                    <div class="row">
+                        <div class="col-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="dateInicio">Inicio</label>
+                                <input type="date" class="form-control" id="dateInicio" name="dateInicio">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-4">
-                        <div class="form-group">
-                            <label for="dateFinal">Final</label>
-                            <input type="date" class="form-control" id="dateFinal" name="dateFinal">
+                        <div class="col-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="dateFinal">Final</label>
+                                <input type="date" class="form-control" id="dateFinal" name="dateFinal">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-4">
-                        <div class="form-group">
-                            <label for="name">Nombre</label>
-                            <input type="text" class="form-control" id="name" name="nombre">
+                        <div class="col-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <input type="text" class="form-control" id="name" name="nombre">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-4 col-lg-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Puesto</label>
-                            <select name="puesto" id="puestoSelect" class="form-control">
-                                <option value=""> Seleccionar </option>
-                            </select>
+                        <div class="col-4 col-lg-3">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Puesto</label>
+                                <select name="puesto" id="puestoSelect" class="form-control">
+                                    <option value=""> Seleccionar </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-4 col-lg-3">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Área</label>
-                            <select name="area" id="areasSelect" class="form-control">
-                                <option value=""> Seleccionar </option>
-                            </select>
+                        <div class="col-4 col-lg-3">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Área</label>
+                                <select name="area" id="areasSelect" class="form-control">
+                                    <option value=""> Seleccionar </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-1 d-flex align-items-end">
-                        <div class="form-group ">
-                            <button type="submit" class="btn btn-primary" id="enviar">Buscar</button>
+                        <div class="col-1 d-flex align-items-end">
+                            <div class="form-group ">
+                                <button type="submit" class="btn btn-primary" id="enviar">Buscar</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+            {{-- Exportar datos a EXCEL --}}
+            <div class="d-flex flex-row-reverse bd-highlight" id="btn-excel">
+                @if ($requestDateInicio!="")
+                @php
+                if($requestArea==null)$requestArea=0;
+                else $requestArea = $requestArea;
+                @endphp
+                <a href="{{route('export.excel.dashHistorial',['requestDateInicio' => $requestDateInicio, 'requestDateFinal'=> $requestDateFinal, 'requestArea' => $requestArea])}}"
+                    class="btn btn-primary btn-lg active" role="button" aria-pressed="true"
+                    title="Descargar Reporte Excel"><i class="fas fa-arrow-circle-down"></i></a>
+                @else
+                <a href="{{route('export.excel.dashIndex')}}" class="btn btn-primary btn-lg active" role="button"
+                    aria-pressed="true" title="Descargar Reporte Excel"><i class="fas fa-arrow-circle-down"></i></a>
+                @endif
+            
+            </div> 
+            
         </main>
 
 
