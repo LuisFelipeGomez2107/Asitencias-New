@@ -145,6 +145,45 @@
             
             </div> 
             
+              {{-- vista meses  --}}
+              <div class="mt-3">
+                @if (isset($meses))
+                    <div>
+                        <div class="col-6">
+                            <div class="accordion" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header text-center" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed text-center" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
+                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                            Mes
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                                        aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                @foreach ($meses as $item)
+                                                    <div class="col-4 months" style="cursor:pointer;"
+                                                        data-value="{{ $item['nombre'] }}">
+                                                        <div class="row">
+                                                            <div class="col-2">
+                                                                <span id="color_front"
+                                                                    style="border-radius: 50%;width: 20px;height: 20px;display:inline-block;background-color:{{ $item['color']['color'] }};"></span>
+                                                            </div>
+                                                            <div class="col-10">{{ $item['nombre'] }}</div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </main>
 
 
