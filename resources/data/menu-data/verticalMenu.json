@@ -2,45 +2,25 @@
   "menu": [
     {
       "name": "Dashboards",
-      "badge": "4",
+      "badge": "3",
       "badgeClass": "badge badge-light-warning rounded-pill ms-auto me-1",
       "icon": "home",
       "slug": "",
       "submenu": [
-     
         {
           "url": "/",
-          "name": "eCommerce",
+          "name": "Asistencias",
           "icon": "circle",
           "slug": "dashboard-ecommerce"
         },
         {
           "url": "app/calendar",
-          "name": "Calendar",
+          "name": "Horarios",
           "icon": "calendar",
           "slug": "app-calendar"
         },
         {
-          "name": "Roles & Permission",
-          "icon": "shield",
-          "slug": "",
-          "submenu": [
-            {
-              "url": "app/access-roles",
-              "name": "Roles",
-              "icon": "circle",
-              "slug": "app-access-roles"
-            },
-            {
-              "url": "app/access-permission",
-              "name": "Permission",
-              "icon": "circle",
-              "slug": "app-access-permission"
-            }
-          ]
-        },
-        {
-          "name": "User",
+          "name": "Usuarios",
           "icon": "user",
           "slug": "",
           "submenu": [
@@ -49,46 +29,10 @@
               "name": "List",
               "icon": "circle",
               "slug": "app-user-list"
-            },
-            {
-              "name": "View",
-              "icon": "circle",
-              "slug": "",
-              "submenu": [
-                {
-                  "url": "app/user/view/account",
-                  "name": "Account",
-                  "slug": "app-user-view-account"
-                },
-                {
-                  "url": "app/user/view/security",
-                  "name": "Security",
-                  "slug": "app-user-view-security"
-                },
-                {
-                  "url": "app/user/view/billing",
-                  "name": "Billings & Plans",
-                  "slug": "app-user-view-billing"
-                },
-                {
-                  "url": "app/user/view/notifications",
-                  "name": "Notifications",
-                  "slug": "app-user-view-notifications"
-                },
-                {
-                  "url": "app/user/view/connections",
-                  "name": "Connections",
-                  "slug": "app-user-view-connections"
-                }
-              ]
             }
           ]
         }
-
       ]
     }
-
-
-    
   ]
 }

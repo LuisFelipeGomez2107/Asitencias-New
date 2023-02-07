@@ -8,7 +8,7 @@
       
         {
           "url": "dashboard/ecommerce",
-          "name": "eCommerce",
+          "name": "Dashboard",
           "icon": "shopping-cart",
           "slug": "dashboard-ecommerce"
         }

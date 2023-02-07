@@ -4,6 +4,29 @@
 
 
 @section('content')
+<style>
+
+    
+    .static {
+        position: sticky;
+        left: 0;
+        background-color: white;
+    }
+    
+    tbody tr .static {
+        background-color: white;
+    }
+    
+    thead tr .static {
+        background-color: white;
+    }
+    
+    .table{
+      max-width: 50% !important;
+       
+    }
+  
+</style>
     <!-- Dashboard Analytics Start -->
     <section id="dashboard-analytics">
         @php
@@ -185,8 +208,8 @@
                 @endif
             </div>
               {{-- tabla dashboard --}}
-              <div class="table-responsive">
-                <table class="table table-striped">
+              <div class="table-responsive"  style="max-with: 400px; overflow-x: auto;">
+                <table class="table ">
                     <thead>
                         <tr>
                             <th class="static" scope="col">Nombre</th>
@@ -237,7 +260,7 @@
                                     @endforeach
                                 @else
                                     @for ($i = $dia_fecha_inicial; $i <= $dia_fecha_final; $i++)
-                                        <th class="text-center text-secondary" scope="col"> {{ $i }} </th>
+                                        <th class="static" scope="col"> {{ $i }} </th>
                                     @endfor
                                 @endif
                             @endif
@@ -274,7 +297,7 @@
                                                    
                                                     if ($collect->date == $date) {
                                                         if ($collect->id_user == $usuario->id) {
-                                                     
+                                                      
                                                             echo TestFacades::testMethodColors($usuario->id, $collect->all_date, $collection, $collectionjustificaciones, $item,$usuario->id_area);
                                                             $flag = true;
                                                             $date = date('Y-m-d', strtotime('+1 day', strtotime($date)));
