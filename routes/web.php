@@ -15,6 +15,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\HorariosController;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -45,7 +46,7 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('email', [AppsController::class, 'emailApp'])->name('app-email');
     Route::get('chat', [AppsController::class, 'chatApp'])->name('app-chat');
     Route::get('todo', [AppsController::class, 'todoApp'])->name('app-todo');
-    Route::get('calendar', [AppsController::class, 'calendarApp'])->name('app-calendar');
+    Route::get('calendar', [HorariosController::class, 'index'])->name('app-calendar');
     Route::get('kanban', [AppsController::class, 'kanbanApp'])->name('app-kanban');
     Route::get('invoice/list', [AppsController::class, 'invoice_list'])->name('app-invoice-list');
     Route::get('invoice/preview', [AppsController::class, 'invoice_preview'])->name('app-invoice-preview');
@@ -264,3 +265,6 @@ Route::get('getPuesto/puestos',[\App\Http\Controllers\DashboardController::class
 // Image
 Route::get('consultarImagenes',[\App\Http\Controllers\ImageController::class,'consultarImagenes'])->name('consultarImagenes');
 Route::get('consultarJustificaciones',[\App\Http\Controllers\ImageController::class,'consultarJustificaciones'])->name('consultarJustificaciones');
+
+
+Route::post('/horaiosUpdate',[\App\Http\Controllers\HorariosController::class,'update'])->name('horarios.update');

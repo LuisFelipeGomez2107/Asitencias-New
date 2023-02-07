@@ -1,7 +1,19 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Dashboard Admin')
+@section('vendor-style')
+  <!-- Vendor css files -->
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/calendars/fullcalendar.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+@endsection
 
+@section('page-style')
+  <!-- Page css files -->
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-calendar.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+@endsection
 
 @section('content')
 <style>
@@ -50,7 +62,7 @@
                                 aria-current="1page" href="{{ route('dashboard-analytics') }}">Dashboard</a>
                         </li>
 
-                        <div class="dropdown">
+                        {{-- <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Usuarios/Horarios
@@ -62,7 +74,7 @@
                             </div>
                         </div>
                 </div>
-            </div>
+            </div> --}}
         </nav>
         <main class="flex-shrink-1">
             <div class="container-fluid flex-wrap mt-3">
