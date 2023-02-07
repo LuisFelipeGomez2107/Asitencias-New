@@ -1,5 +1,6 @@
 <?php
 
+use App\Test\TestFacades;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -163,6 +164,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -181,6 +183,7 @@ return [
         // custom theme menu provider
         App\Providers\MenuServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        App\Providers\TestFacadesServiceProvider::class,
 
     ],
 
@@ -198,6 +201,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // custom theme helper
         'Helper' => App\Helpers\Helpers::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'TestFacades' => App\Test\Facades\TestFacades::class,
     ])->toArray(),
 
 ];

@@ -53,25 +53,10 @@
       <li class="nav-item"><a class="nav-link menu-toggle" href="javascript:void(0);"><i class="ficon"
             data-feather="menu"></i></a></li>
     </ul>
-    <ul class="nav navbar-nav bookmark-icons">
-      {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/email') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon"
-            data-feather="mail"></i></a></li>
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/chat') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon"
-            data-feather="message-square"></i></a></li> --}}
-      <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/calendar') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon"
-            data-feather="calendar"></i></a></li>
-      {{-- <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/todo') }}"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Todo"><i class="ficon"
-            data-feather="check-square"></i></a></li> --}}
-    </ul>
+
     <ul class="nav navbar-nav">
       <li class="nav-item d-none d-lg-block">
-        <a class="nav-link bookmark-star">
-          <i class="ficon text-warning" data-feather="star"></i>
-        </a>
+        
         <div class="bookmark-input search-input">
           <div class="bookmark-input-icon">
             <i data-feather="search"></i>
@@ -368,33 +353,7 @@
           <i class="me-50" data-feather="settings"></i> Settings
         </a>
 
-        {{-- @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
-          <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">Manage Team</h6>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item"
-            href="{{ Auth::user() ? route('teams.show', Auth::user()->currentTeam->id) : 'javascript:void(0)' }}">
-            <i class="me-50" data-feather="settings"></i> Team Settings
-          </a>
-          @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-            <a class="dropdown-item" href="{{ route('teams.create') }}">
-              <i class="me-50" data-feather="users"></i> Create New Team
-            </a>
-          @endcan
 
-          <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">
-            Switch Teams
-          </h6>
-          <div class="dropdown-divider"></div>
-          @if (Auth::user())
-            @foreach (Auth::user()->allTeams() as $team) --}}
-              {{-- Below commented code read by artisan command while installing jetstream. !! Do not remove if you want to use jetstream. --}}
-
-              {{-- <x-jet-switchable-team :team="$team" /> --}}
-            {{-- @endforeach --}}
-          {{-- @endif
-        @endif --}}
         @if (Auth::check())
           <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -537,15 +496,6 @@
 </ul>
 
 {{-- if main search not found! --}}
-<ul class="main-search-list-defaultlist-other-list d-none">
-  <li class="auto-suggestion justify-content-between">
-    <a class="d-flex align-items-center justify-content-between w-100 py-50">
-      <div class="d-flex justify-content-start">
-        <span class="me-75" data-feather="alert-circle"></span>
-        <span>No results found.</span>
-      </div>
-    </a>
-  </li>
-</ul>
+
 {{-- Search Ends --}}
 <!-- END: Header-->

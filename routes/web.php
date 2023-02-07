@@ -252,4 +252,15 @@ Route::get('/', function () {
 Route::get('redirects',[LoginController::class, 'index'])->name('test');
 Route::post('login',[LoginController::class, 'index'])->name('login');
 
+// Excel export routes 
+Route::get('downloadExcel/{meses?}',[\App\Http\Controllers\ExportController::class,'exportIndex'])->name('export.excel.dashIndex');
+Route::get('downloadExcelHistorial/{requestDateInicio}/{requestDateFinal}/{requestArea?}',[\App\Http\Controllers\ExportController::class,'exportHistorial'])->name('export.excel.dashHistorial');
 
+
+Route::post('upluadJustifyFalta',[\App\Http\Controllers\DashboardController::class,'justificarFalta'])->name('falta.subir.Justificacion');
+Route::get('getAreas/areas',[\App\Http\Controllers\DashboardController::class, 'getAreas'])->name('areas.get');
+Route::get('getPuesto/puestos',[\App\Http\Controllers\DashboardController::class, 'getPuestos'])->name('puesto.get');
+
+// Image
+Route::get('consultarImagenes',[\App\Http\Controllers\ImageController::class,'consultarImagenes'])->name('consultarImagenes');
+Route::get('consultarJustificaciones',[\App\Http\Controllers\ImageController::class,'consultarJustificaciones'])->name('consultarJustificaciones');
