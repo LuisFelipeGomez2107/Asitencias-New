@@ -141,7 +141,6 @@
 
 </section>
 <!-- Full calendar end -->
-@endsection
 <script>
   //  Update User get elements
   $(".fa-pen-to-square").on('click', function() {
@@ -173,6 +172,7 @@
       )
   });
 </script>
+@endsection
 
 @section('vendor-script')
   <!-- Vendor js files -->
