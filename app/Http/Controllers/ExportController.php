@@ -2,7 +2,18 @@
 
 namespace App\Http\Controllers;
 
+
+
+use DateTime;
+use App\Models\User;
+use App\Models\Images;
+use App\Exports\DashExport;
 use Illuminate\Http\Request;
+use App\Models\Justificaciones;
+use Illuminate\Support\Collection;
+use App\Exports\DashExportHistorial;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
@@ -260,4 +271,4 @@ class ExportController extends Controller
     }
 }
 
-}
+
