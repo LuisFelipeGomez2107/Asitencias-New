@@ -184,6 +184,159 @@
                     </div>
                 @endif
             </div>
+              {{-- tabla dashboard --}}
+              <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="static" scope="col">Nombre</th>
+
+                            @if (isset($countMonths))
+                                @if (isset($meses))
+                                    @php
+                                        $contador = 1;
+                                        $rcv = 0;
+
+                                    @endphp
+                                    @foreach ($meses as $item)
+                                        @php
+                                            //  dd($meses);
+                                        @endphp
+                                        @for ($i = $item['primerDia']; $i <= $item['ultimoDia']; $i++)
+                                            @if ($contador == 1)
+                                                @if ($i == 1)
+                                                    <th style="color:{{ $item['color']['color'] }}; border-bottom-width: medium;"
+                                                        class="first-col">{{ $i }}</th>
+                                                @elseif($i == $item['ultimoDia'])
+                                                    <th style="color:{{ $item['color']['color'] }}; border-bottom-width: medium;"
+                                                        id="{{ $item['nombre'] }}">{{ $i }}</th>
+                                                @else
+                                                    <th
+                                                        style="color:{{ $item['color']['color'] }}; border-bottom-width: medium;">
+                                                        {{ $i }}</th>
+                                                @endif
+                                            @else
+                                                @if ($i == 1)
+                                                    <th
+                                                        style="color:{{ $item['color']['color'] }}; border-bottom-width: medium;">
+                                                        {{ $i }}</th>
+                                                @elseif($i == $item['ultimoDia'])
+                                                    <th style="color:{{ $item['color']['color'] }}; border-bottom-width: medium;"
+                                                        id="{{ $item['nombre'] }}">{{ $i }}</th>
+                                                @else
+                                                    <th
+                                                        style="color:{{ $item['color']['color'] }}; border-bottom-width: medium;">
+                                                        {{ $i }}</th>
+                                                @endif
+                                            @endif
+                                        @endfor
+                                        @php
+                                            $contador++;
+                                            $rcv++;
+                                        @endphp
+                                    @endforeach
+                                @else
+                                    @for ($i = $dia_fecha_inicial; $i <= $dia_fecha_final; $i++)
+                                        <th class="text-center text-secondary" scope="col"> {{ $i }} </th>
+                                    @endfor
+                                @endif
+                            @endif
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach ($usuarios as $usuario)
+                    
+                            <tr>
+                                <td class="static" scope="row">{{ $usuario->name }}</td>
+
+                                @php
+                                    // if ($countMonths != 0) {
+                                    if ($requestDateInicio !="") {
+                                        $contador = 1;
+                                        $rcv = 0;
+
+                                        foreach ($meses as $item) {
+                                     
+                                            for ($i = $item['primerDia']; $i <= $item['ultimoDia']; $i++) {
+                                                // dd($item);
+                                                $date = date('Y-' . $item['mes'] . '-' . $i);
+                                                $date = date('m-d', strtotime($date));
+                                                // dd($date);
+
+                                                $j = 0;
+                                                $flag = false;
+                                                $count = count($collection) - 1;
+
+                                                foreach ($collection as $collect) {
+                                                    
+                                                   
+                                                    if ($collect->date == $date) {
+                                                        if ($collect->id_user == $usuario->id) {
+                                                     
+                                                            echo TestFacades::testMethodColors($usuario->id, $collect->all_date, $collection, $collectionjustificaciones, $item,$usuario->id_area);
+                                                            $flag = true;
+                                                            $date = date('Y-m-d', strtotime('+1 day', strtotime($date)));
+                                                            break;
+                                                        }
+                                                    }
+                                                    if ($j == $count && $flag == false) {
+                                                         
+                                                        $a = 0;
+                                                        if ($i < 10) {
+                                                            $a = '0' . $i;
+                                                        } else {
+                                                            $a = $i;
+
+                                                        }
+                                                        echo TestFacades::faltametodoColors($a, $collection, $collect->all_date, $usuario->id, $collectionjustificaciones, $item);
+                                                    }
+                                                    $j++;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        for ($i = $dia_fecha_inicial; $i <= $dia_fecha_final; $i++) {
+                                            // echo "<td >";
+                                            $j = 0;
+                                            $flag = false;
+                                            $count = count($collection) - 1;
+
+                                            foreach ($collection as $collect) {
+
+                                   
+                                                if ($collect->created_at == $i) {
+                                          
+                                                    if ($collect->id_user == $usuario->id) {
+                                                     
+                                                        echo TestFacades::testMethod($usuario->id, $collect->all_date, $collection, $collectionjustificaciones,$usuario->id_area);
+                                                        $flag = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if ($j == $count && $flag == false) {
+                                                    $a = 0;
+                                                    if ($i < 10) {
+                                                        $a = '0' . $i;
+                                                    } else {
+                                                        $a = $i;
+                                                    }
+                                                    echo TestFacades::faltametodo($a, $collection, $collect->all_date, $usuario->id, $collectionjustificaciones);
+                                                }
+                                                $j++;
+                                            }
+                                        }
+                                    }
+
+                                @endphp
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
         </main>
 
 

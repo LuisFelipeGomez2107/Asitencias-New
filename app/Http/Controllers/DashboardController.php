@@ -57,7 +57,7 @@ class DashboardController extends Controller
                 return $usuarios->where('users.name', 'like', "%" . $nombre . "%");
             })
 
-            ->select('users.name as name', 'users.id as id')
+            ->select('users.name as name', 'users.id as id', 'users.areas_id as id_area')
             ->get();
 
 

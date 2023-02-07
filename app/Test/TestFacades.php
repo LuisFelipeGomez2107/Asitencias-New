@@ -6,52 +6,68 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Images;
 use App\Models\Justificaciones;
+use App\Models\Tolerancia;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class TestFacades
 {
 
-    public function countImages($id_user, $date, $collection, $justificaciones)
+    public function countImages($id_user, $date, $justificaciones, $area, $i, $collect, $collection)
     {
+
+
+        $mes = date('m', strtotime($date));
+
+
+
+        $dateY = date('Y-m-d', strtotime($collect->Year . '-' . $mes . '-' . $i));
 
         /*
                0  falta
-               1 asistencia
+               1 asistencias
                2 retardo
-            -  3 usuario no creado
+            -  3 usuario no creados
                4 Justiticación de retardo
                5 Justificación con falta
                6 falta por que solo se subio una evidencia
             */
+        $horarios = Tolerancia::find($area)
+            ->where('created_at', '<=', $date)
+            ->first();
 
-        $portionDate = explode(' ', $date);
+
         $contadorImagenes = 0;
         foreach ($collection as $collect) {
             if ($id_user == $collect->id_user) {
                 $portionAlldate = explode(' ', $collect->all_date);
-                if ($portionDate[0] == $portionAlldate[0]) {
+                if ($dateY == $portionAlldate[0]) {
                     $contadorImagenes++;
                 }
             }
         }
+
         // Validamos cuando tenemos dos Evidencias Fotograficas
         if ($contadorImagenes == 2) {
             global $Hora_In;
             $Hora_In = null;
+
             foreach ($collection as $collect) {
                 if ($id_user == $collect->id_user) {
 
                     $portionAlldate = explode(' ', $collect->all_date);
-                    if ($portionDate[0] == $portionAlldate[0]) {
+                    if ($dateY == $portionAlldate[0]) {
                         $Hora_In = $portionAlldate[1];
                         break;
                     }
                 }
             }
 
+            // Traemos la tabla de tolerancias para validar retardos
+
+
             // Validacion de la hora de Entrada con la Tolerancia Establecida
-            $hora = date("h:i:s", strtotime("09:15:59"));
+            $hora = date("h:i:s", strtotime($horarios->tolerancia));
             if ($Hora_In <= $hora) {
 
                 return 1;
@@ -79,7 +95,7 @@ class TestFacades
             foreach ($collection as $collect) {
                 if ($id_user == $collect->id_user) {
                     $portionAlldate = explode(' ', $collect->all_date);
-                    if ($portionDate[0] == $portionAlldate[0]) {
+                    if ($dateY == $portionAlldate[0]) {
                         $Hora_In = $portionAlldate[1];
                         $dias = $portionAlldate[0];
                         break;
@@ -88,18 +104,16 @@ class TestFacades
             }
             // Si es igual a una Evidencia y nos encotramos en el dia actual Validamos
             if ($dia_actual == $dias) {
-                $hora = date("h:i:s", strtotime("09:15:59"));
+                $hora = date("h:i:s", strtotime($horarios->tolerancia));
                 if ($Hora_In != null) {
                     // Si la hora de entrada es mayor a la toleracia
                     if ($Hora_In > $hora) {
-                        return 1;
+                        return 2;
                     }
                     // Si estamos dentro del Rango de Tolerancia
                     if ($Hora_In <= $hora) {
                         return 1;
                     }
-                } else {
-                    return 0;
                 }
             } else {
                 // Verificamos si existen Justificaciones en la Base de datos
@@ -126,6 +140,8 @@ class TestFacades
             return 0;
         }
     }
+
+
 
     public function countfalta($dia_corto, $collection, $date, $id_user, $Justificaciones)
     {
@@ -164,6 +180,7 @@ class TestFacades
             } else {
                 // Verificamos si existen evidencias fotograficas
                 foreach ($Justificaciones as $justificacion) {
+
                     if ($justificacion->id_user == $id_user) {
                         if ($justificacion->falta == $date) {
                             return 1;
@@ -172,9 +189,6 @@ class TestFacades
                 }
                 return 0;
             }
-        } else {
-            // Si no existe ninguna de las condiciones anteriores colocaremos faltametodo
-            return 0;
         }
 
         // Falta
@@ -183,62 +197,62 @@ class TestFacades
         // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
     }
 
-    public function countfaltaYear($dia_corto, $collection, $date, $id_user, $Justificaciones)
+    public function countfaltaYear($i, $collection, $id_user, $Justificaciones, $mes, $collect)
     {
 
 
+        $dateY = date('Y-m-d', strtotime($collect->Year . '-' . $mes['mes'] . '-' . $i));
 
+        $dateGet = date("l", strtotime($dateY));
+
+        // Validamos los dias de la semana si es sabado o domingo saltaremos los dias
+        if ($dateGet == "Sunday") {
+            return "-";
+        }
+        if ($dateGet == "Saturday") {
+            return "-";
+        }
+        // Falta
+
+        $contadorImagenes = 0;
+        // Contaremos la coleccion de imagenes
         foreach ($collection as $collect) {
-            $dateY = date($collect->Year . '-' . $dia_corto);
-            $dateGet = date("l", strtotime($dateY));
+            if ($id_user == $collect->id_user) {
+                $portionAlldate = explode(' ', $collect->all_date);
 
-            // Validamos los dias de la semana si es sabado o domingo saltaremos los dias
-            if ($dateGet == "Sunday") {
-                return "-";
-            }
-            if ($dateGet == "Saturday") {
-                return "-";
-            }
-            // Falta
-            $portionDate = explode(' ', $date);
-            $contadorImagenes = 0;
-            // Contaremos la coleccion de imagenes
-            foreach ($collection as $collect) {
-                if ($id_user == $collect->id_user) {
-                    $portionAlldate = explode(' ', $collect->all_date);
-
-                    if ($portionDate[0] == $portionAlldate[0]) {
-                        $contadorImagenes++;
-                    }
+                if ($dateY == $portionAlldate[0]) {
+                    $contadorImagenes++;
                 }
             }
-            // Validaremos si las evidencias Fotograficas son igual a 0
-            if ($contadorImagenes == 0) {
-                // Validaremos si la fecha es mayor a la fecha actual colocaremos los campos vacios
-                if ($portionDate[0] > date('Y-m-d')) {
-                    return "-";
-                } else {
-                    // Verificamos si existen evidencias fotograficas
-                    foreach ($Justificaciones as $justificacion) {
-                        if ($justificacion->id_user == $id_user) {
-                            if ($justificacion->falta == $date) {
-                                return 1;
-                            }
+        }
+        // Validaremos si las evidencias Fotograficas son igual a 0
+        if ($contadorImagenes == 0) {
+
+            // Validaremos si la fecha es mayor a la fecha actual colocaremos los campos vacios
+            if ($dateY > date('Y-m-d')) {
+
+                return "-";
+            } else {
+                // Verificamos si existen evidencias fotograficas
+                foreach ($Justificaciones as $justificacion) {
+                    if ($justificacion->id_user == $id_user) {
+                        if ($justificacion->falta == $dateY) {
+                            // dd($dateY);
+                            return 1;
                         }
                     }
-                    return 0;
                 }
-            } else {
-                // Si no existe ninguna de las condiciones anteriores colocaremos faltametodo
+
                 return 0;
             }
-
-            // Falta
-            // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
-
-            // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
         }
+        // Falta
+        // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
+
+        // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
     }
+
+
 
 
     public function returnView($date, $user_id)
@@ -258,7 +272,7 @@ class TestFacades
         return $user_id;
     }
     //   Conteos
-    public function testMethod($id_user, $date, $collection, $justificaciones)
+    public function testMethod($id_user, $date, $collection, $justificaciones, $area)
     {
 
         /*
@@ -270,6 +284,14 @@ class TestFacades
                5 Justificación con falta
                6 falta por que solo se subio una evidencia
             */
+        $horarios = Tolerancia::find($area)
+            ->where('created_at', '<=', $date)
+            ->first();
+
+
+
+
+
 
         $portionDate = explode(' ', $date);
         $contadorImagenes = 0;
@@ -296,8 +318,11 @@ class TestFacades
                 }
             }
 
+
+
+
             // Validacion de la hora de Entrada con la Tolerancia Establecida
-            $hora = date("h:i:s", strtotime("09:15:59"));
+            $hora = date("h:i:s", strtotime($horarios->tolerancia));
             if ($Hora_In <= $hora) {
 
                 echo '<td class="text-center" ><i class="fa-solid fa-check showModal" style="color:#4fc341; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-user-id=' . $id_user . ' data-date=' . $date . '></i></td>';
@@ -334,7 +359,7 @@ class TestFacades
             }
             // Si es igual a una Evidencia y nos encotramos en el dia actual Validamos
             if ($dia_actual == $dias) {
-                $hora = date("h:i:s", strtotime("09:15:59"));
+                $hora = date("h:i:s", strtotime($horarios->tolerancia));
                 if ($Hora_In != null) {
                     // Si la hora de entrada es mayor a la toleracia
                     if ($Hora_In > $hora) {
@@ -377,6 +402,8 @@ class TestFacades
 
     public function faltametodo($dia_corto, $collection, $date, $id_user, $Justificaciones)
     {
+
+
 
 
 
@@ -434,7 +461,7 @@ class TestFacades
 
     // En Estos metodos retornamos las validaciones pero con colores rgba para distinguir los meses desplegados
 
-    public function testMethodColors($id_user, $date, $collection, $justificaciones, $item)
+    public function testMethodColors($id_user, $date, $collection, $justificaciones, $item, $area)
     {
 
         /*
@@ -446,6 +473,11 @@ class TestFacades
                5 Justificación con falta
                6 falta por que solo se subio una evidencia
             */
+
+        $horarios = Tolerancia::find($area)
+            ->where('created_at', '<=', $date)
+            ->first();
+
 
         $portionDate = explode(' ', $date);
         $contadorImagenes = 0;
@@ -473,7 +505,8 @@ class TestFacades
             }
 
             // Validacion de la hora de Entrada con la Tolerancia Establecida
-            $hora = date("h:i:s", strtotime("09:15:59"));
+
+            $hora = date("h:i:s", strtotime($horarios->tolerancia));
             if ($Hora_In <= $hora) {
 
                 echo '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fa-solid fa-check showModal" style="color:#4fc341; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-user-id=' . $id_user . ' data-date=' . $date . '></i></td>';
@@ -510,7 +543,7 @@ class TestFacades
             }
             // Si es igual a una Evidencia y nos encotramos en el dia actual Validamos
             if ($dia_actual == $dias) {
-                $hora = date("h:i:s", strtotime("09:15:59"));
+                $hora = date("h:i:s", strtotime($horarios->tolerancia));
                 if ($Hora_In != null) {
                     // Si la hora de entrada es mayor a la toleracia
                     if ($Hora_In > $hora) {
@@ -553,101 +586,69 @@ class TestFacades
     {
 
 
-        foreach ($collection as $collect) {
-            $dateY = date($collect->Year . '-' . $dia_corto);
-            $dateGet = date("l", strtotime($dateY));
 
-            // Validamos los dias de la semana si es sabado o domingo saltaremos los dias
-            if ($dateGet == "Sunday") {
-                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
-            }
-            if ($dateGet == "Saturday") {
-                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
-            }
-            // Falta
-            $portionDate = explode(' ', $date);
-            $contadorImagenes = 0;
-            // Contaremos la coleccion de imagenes
+        foreach ($item as $mes) {
+
             foreach ($collection as $collect) {
-                if ($id_user == $collect->id_user) {
-                    $portionAlldate = explode(' ', $collect->all_date);
 
-                    if ($portionDate[0] == $portionAlldate[0]) {
-                        $contadorImagenes++;
-                    }
-                }
-            }
-            // Validaremos si las evidencias Fotograficas son igual a 0
-            if ($contadorImagenes == 0) {
-                // Validaremos si la fecha es mayor a la fecha actual colocaremos los campos vacios
-                if ($portionDate[0] > date('Y-m-d')) {
+                $dateY = date('Y-m-d', strtotime($collect->Year . '-' . $mes . '-' . $dia_corto));
+
+                $dateGet = date("l", strtotime($dateY));
+
+
+
+                // Validamos los dias de la semana si es sabado o domingo saltaremos los dias
+                if ($dateGet == "Sunday") {
                     return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
-                } else {
-                    // Verificamos si existen evidencias fotograficas
-                    foreach ($Justificaciones as $justificacion) {
-                        if ($justificacion->id_user == $id_user) {
-                            if ($justificacion->falta == $date) {
-                                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fas fa-calendar-check showJustificarFalta" style="color:#4fc341; cursor:pointer;" data-user-id=' . $id_user . ' data-date=' . $date . ' data-bs-toggle="modal" data-bs-target="#modalShowJustificarFaltas"></i></td>';
-                            }
+                }
+                if ($dateGet == "Saturday") {
+                    return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
+                }
+                // Falta
+
+                $contadorImagenes = 0;
+                // Contaremos la coleccion de imagenes
+                foreach ($collection as $collect) {
+
+                    if ($id_user == $collect->id_user) {
+                        $portionAlldate = explode(' ', $collect->all_date);
+
+                        if ($dateGet == $portionAlldate[0]) {
+
+                            $contadorImagenes++;
                         }
                     }
-                    return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" ><i class="fa-solid fa-xmark justificafalta" style="color:red; cursor:pointer" data-toggle="modal";  data-target="#modalJustificarFaltas"  id="absence-icon" data-userid=' . $id_user . ' data-date=' . $date . '></i></td>';
                 }
-            } else {
-                // Si no existe ninguna de las condiciones anteriores colocaremos faltametodo
-                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fa-solid fa-xmark justificafalta" style="color:red; cursor:pointer" data-toggle="modal";  data-target="#modalJustificarFaltas"  id="absence-icon" data-userid=' . $id_user . ' data-date=' . $date . '></i></td>';
-            }
 
-            // Falta
-            // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
-            return '<td class="text-center" \>ROR</td>';
-            // En caso de que el created at sea nulo no aplicara correctamente las asignaciones)
 
-            // Validamos los dias de la semana si es sabado o domingo saltaremos los dias
-            if ($dateGet == "Sunday") {
-                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
-            }
-            if ($dateGet == "Saturday") {
-                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
-            }
-            // Falta
-            $portionDate = explode(' ', $date);
-            $contadorImagenes = 0;
-            // Contaremos la coleccion de imagenes
-            foreach ($collection as $collect) {
-                if ($id_user == $collect->id_user) {
-                    $portionAlldate = explode(' ', $collect->all_date);
+                // Validaremos si las evidencias Fotograficas son igual a 0
+                if ($contadorImagenes == 0) {
+                    // Validaremos si la fecha es mayor a la fecha actual colocaremos los campos vacios
 
-                    if ($portionDate[0] == $portionAlldate[0]) {
-                        $contadorImagenes++;
-                    }
-                }
-            }
-            // Validaremos si las evidencias Fotograficas son igual a 0
-            if ($contadorImagenes == 0) {
-                // Validaremos si la fecha es mayor a la fecha actual colocaremos los campos vacios
-                if ($portionDate[0] > date('Y-m-d')) {
-                    return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
-                } else {
-                    // Verificamos si existen evidencias fotograficas
-                    foreach ($Justificaciones as $justificacion) {
-                        if ($justificacion->id_user == $id_user) {
-                            if ($justificacion->falta == $date) {
-                                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fas fa-calendar-check showJustificarFalta" style="color:#4fc341; cursor:pointer;" data-user-id=' . $id_user . ' data-date=' . $date . ' data-bs-toggle="modal" data-bs-target="#modalShowJustificarFaltas"></i></td>';
+                    if ($dateY > date('Y-m-d')) {
+                        return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" data-date=' . $date . '>-</td>';
+                    } else {
+                        // Verificamos si existen evidencias fotograficas
+                        foreach ($Justificaciones as $justificacion) {
+                            if ($justificacion->id_user == $id_user) {
+                                if ($justificacion->falta ==  $dateY) {
+                                    return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fas fa-calendar-check showJustificarFalta" style="color:#4fc341; cursor:pointer;" data-user-id=' . $id_user . ' data-date=' . $date . ' data-bs-toggle="modal" data-bs-target="#modalShowJustificarFaltas"></i></td>';
+                                }
                             }
                         }
+                        return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" ><i class="fa-solid fa-xmark justificafalta" style="color:red; cursor:pointer" data-toggle="modal";  data-target="#modalJustificarFaltas"  id="absence-icon" data-userid=' . $id_user . ' data-date=' . $dateY . '></i></td>';
                     }
-                    return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '" ><i class="fa-solid fa-xmark justificafalta" style="color:red; cursor:pointer" data-toggle="modal";  data-target="#modalJustificarFaltas"  id="absence-icon" data-userid=' . $id_user . ' data-date=' . $date . '></i></td>';
+                } else {
+                    // Si no existe ninguna de las condiciones anteriores colocaremos faltametodo
+                    return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fa-solid fa-xmark justificafalta" style="color:red; cursor:pointer" data-toggle="modal";  data-target="#modalJustificarFaltas"  id="absence-icon" data-userid=' . $id_user . ' data-date=' .  $dateY . '></i></td>';
                 }
-            } else {
-                // Si no existe ninguna de las condiciones anteriores colocaremos faltametodo
-                return '<td class="text-center" style="background-color:' . $item['color']['rgba'] . '"><i class="fa-solid fa-xmark justificafalta" style="color:red; cursor:pointer" data-toggle="modal";  data-target="#modalJustificarFaltas"  id="absence-icon" data-userid=' . $id_user . ' data-date=' . $date . '></i></td>';
-            }
 
-            // Falta
-            // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
-            return '<td class="text-center" \>ROR</td>';
-            // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
+                // Falta
+                // En caso de que el created at sea nulo no aplicara correctamente las asignaciones
+                return '<td class="text-center" \>ROR</td>';
+                // En caso de que el created at sea nulo no aplicara correctamente las asignaciones)
+
+            }
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use app\Test\Facades\TestFacades;
 use Illuminate\Support\ServiceProvider;
+use App\Test\TestFacades;
 
 class TestFacadesServiceProvider extends ServiceProvider
 {
@@ -30,3 +30,4 @@ class TestFacadesServiceProvider extends ServiceProvider
         //
     }
 }
+
