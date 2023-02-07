@@ -27,7 +27,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class DashboardController extends Controller
 {
     // Dashboard - Analytics
-    public function dashboardAnalytics(Request $request)
+    public function index(Request $request)
     {
         $requestDateInicio = date($request->dateInicio);
         $requestDateFinal = date($request->dateFinal);

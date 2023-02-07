@@ -79,7 +79,55 @@
 
             </div>
 
-            {{-- Filtros de consulta --}}
+           {{-- Filtros de consulta --}}
+           <div class="flex-wrap" id="form-date">
+            <form action="{{ route('dashboard-analytics') }}" id="form" method="GET">
+
+                <div class="row">
+                    <div class="col-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="dateInicio">Inicio</label>
+                            <input type="date" class="form-control" id="dateInicio" name="dateInicio">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="dateFinal">Final</label>
+                            <input type="date" class="form-control" id="dateFinal" name="dateFinal">
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" class="form-control" id="name" name="nombre">
+                        </div>
+                    </div>
+
+                    <div class="col-4 col-lg-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Puesto</label>
+                            <select name="puesto" id="puestoSelect" class="form-control">
+                                <option value=""> Seleccionar </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-3">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Área</label>
+                            <select name="area" id="areasSelect" class="form-control">
+                                <option value=""> Seleccionar </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-1 d-flex align-items-end">
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-primary" id="enviar">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
         </main>
 
 

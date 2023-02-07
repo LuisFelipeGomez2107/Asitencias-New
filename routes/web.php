@@ -35,7 +35,7 @@ Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashb
 
 /* Route Dashboards */
 Route::group(['prefix' => 'dashboard'], function () {
-    Route::get('analytics', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics');
+    Route::get('analytics', [DashboardController::class, 'index'])->name('dashboard-analytics');
     Route::get('ecommerce', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
 });
 /* Route Dashboards */
