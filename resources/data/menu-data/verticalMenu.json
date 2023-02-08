@@ -26,7 +26,7 @@
           "submenu": [
             {
               "url": "app/user/list",
-              "name": "List",
+              "name": "Lista",
               "icon": "circle",
               "slug": "app-user-list"
             }

@@ -270,3 +270,4 @@ Route::get('consultarJustificaciones',[\App\Http\Controllers\ImageController::cl
 Route::post('/horaiosUpdate',[\App\Http\Controllers\HorariosController::class,'update'])->name('horarios.update');
 Route::post('upluadJustify',[\App\Http\Controllers\AdminController::class,'upluadJustify'])->name('subirJustificacion');
 Route::get('showfaltaJusticada',[\App\Http\Controllers\AdminController::class,'showJustyFaltas'])->name('mostra.faltas');
+Route::post('historial/userlist',[\App\Http\Controllers\AdminController::class,'historialUserList'])->name('admin.historial.userlist');

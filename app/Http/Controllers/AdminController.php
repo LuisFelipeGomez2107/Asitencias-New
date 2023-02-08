@@ -65,7 +65,7 @@ class AdminController extends Controller
         return redirect('/content/dashboard/dashboard-analytics')->with('status', 'Retardo Justificado Correctamente');
     }
 
-    
+
 
     public function getAreas()
     {
@@ -76,7 +76,7 @@ class AdminController extends Controller
 
     public function showJustyFaltas(Request $request)
     {
-      
+
 
         $justificacion = Justificaciones::where('user_id', $request->id)
             ->where('falta', $request->date)
@@ -92,5 +92,37 @@ class AdminController extends Controller
             $a++;
         }
         return $justificaciones;
+    }
+
+    public function historialUserList(Request $request)
+    {
+
+        $requestpuesto = $request->puesto;
+        $requestnombre = $request->nombre;
+        $requestArea = $request->area;
+        $dateInitial = $request->dateInicio;
+        $area = $request->area;
+        $nombre = $request->nombre;
+        $puesto = $request->puesto;
+        $usuario = User::join('areas', 'users.areas_id', 'areas.id')
+            ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', 'roles.id')
+            ->join('users_has_status', 'users.id', 'users_has_status.user_id')
+            ->select('users.*', 'areas.name as Areas', 'roles.name AS rol', 'users_has_status.status as status')
+
+            ->when($request->area, function ($usuario, $area) {
+                return $usuario->where('users.areas_id', $area);
+            }, function ($usuario) {
+                
+            })
+            ->when($request->nombre, function ($usuario, $nombre) {
+                return $usuario->where('users.name', 'like', "%" . $nombre . "%");
+            })
+            ->when($request->puesto, function ($usuario, $puesto) {
+                return $usuario->where('roles.id', $puesto);
+            })
+            ->get();
+
+        return view('admin.user', compact('usuario'));
     }
 }
