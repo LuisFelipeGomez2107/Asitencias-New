@@ -29,7 +29,7 @@ class ExportController extends Controller
                 ->where('users_has_status.status', 1)
                 ->where('roles.name', '!=', 'Admin')
                 ->where('roles.name', '!=', 'Supervisor')
-                ->select('users.name as name', 'users.id as id')
+                ->select('users.name as name', 'users.id as id', 'users.areas_id as id_area')
                 ->get();
         } else {
             $usuarios = User::join('model_has_roles', 'users.id', 'model_has_roles.model_id')
@@ -39,19 +39,11 @@ class ExportController extends Controller
                 ->where('roles.name', '!=', 'Admin')
                 ->where('roles.name', '!=', 'Supervisor')
                 ->where('users.areas_id', $user->areas_id)
-                ->select('users.name as name', 'users.id as id')
+                ->select('users.name as name', 'users.id as id', 'users.areas_id as id_area')
                 ->get();
         }
 
-        // $fI = date("Y-m-01");
-        // $fF = date("Y-m-t");
-        // Dates
-        // foreach ($usuarios as $user) {
-        //     $images = Images::join('users', 'users.id', 'images.user_id')
-        //         ->whereBetween('images.created_at', [$fI, $fF])
-        //         ->select('images.name', 'images.id as imageId', 'images.user_id', 'images.created_at')
-        //         ->get();
-        // }
+        
 
         $imagenes = Images::whereBetween('created_at', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])->orderBy('id')
             ->get();
@@ -92,10 +84,13 @@ class ExportController extends Controller
         $export = new DashExport($usuarios, $lastDayMonth, $countMonths, $collection,$collectionjustificaciones);
         return Excel::download($export, 'Reporte_Asistencias.xlsx');
     }
+
+
+
     public function exportHistorial($requestDateInicio, $requestDateFinal, $requestArea,)
     {
        
-        // $request->all();
+      
         $user = Auth::user();
         $area = $requestArea;
         if ($user->hasRole('Admin')) {
@@ -105,11 +100,11 @@ class ExportController extends Controller
                 ->where('users_has_status.status', 1)
                 ->where('roles.name', '!=', 'Admin')
                 ->where('roles.name', '!=', 'Supervisor')
-                ->select('users.name as name', 'users.id as id')
+                ->select('users.name as name', 'users.id as id', 'users.areas_id as id_area')
                 ->when($requestArea, function ($usuarios, $area) {
                     return $usuarios->where('users.areas_id', $area);
                 }, function ($usuarios) {
-                    // return $query->orderBy('name');
+                 
                 })
                 ->get();
         } else {
@@ -120,7 +115,7 @@ class ExportController extends Controller
                 ->where('roles.name', '!=', 'Admin')
                 ->where('roles.name', '!=', 'Supervisor')
                 ->where('users.areas_id', $user->areas_id)
-                ->select('users.name as name', 'users.id as id')
+                ->select('users.name as name', 'users.id as id', 'users.areas_id as id_area')
                 ->get();
         }
 
@@ -266,6 +261,7 @@ class ExportController extends Controller
                 $i++;
             }
         }
+    
         $export = new DashExportHistorial($usuarios, $lastDayMonth, $countMonths, $meses,  $dateInitial, $requestDateInicio, $requestDateFinal, $requestArea,$collection, $collectionjustificaciones);
         return Excel::download($export, 'Reporte_Asistencias.xlsx');
     }
