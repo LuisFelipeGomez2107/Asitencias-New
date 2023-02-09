@@ -279,3 +279,12 @@ Route::get('qrCode/{id}', [\App\Http\Controllers\QrCodeController::class, 'index
 Route::get('qr/pdf{id}', [\App\Http\Controllers\QrCodeController::class, 'download'])->name('qr.pdf');
 
 // qr
+
+// user List Routes
+Route::post('update/',[\App\Http\Controllers\AdminController::class,'update'])->name('user.update');
+Route::get('/getSupervisor',[\App\Http\Controllers\AdminController::class, 'getSupervisor'])->name('supervisor.get');
+Route::post('createUser',[\App\Http\Controllers\AdminController::class,'createUser'])->name('crear.usuario');
+Route::get('getRoles/roles',[\App\Http\Controllers\AdminController::class, 'getRoles'])->name('roles.get');
+
+// user List Routes
+

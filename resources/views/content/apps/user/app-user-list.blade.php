@@ -5,21 +5,14 @@
 
 @section('vendor-style')
     {{-- Page Css files --}}
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap5.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
-@section('page-style')
-    {{-- Page Css files --}}
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
-@endsection
+
 
 
 @section('content')
@@ -111,7 +104,7 @@
                 <div class="container-fluid flex-wrap mt-3 table-responsive ">
                     <table class="table table-striped ">
                         <div class="d-flex flex-row-reverse bd-highlight ">
-                            <button type="button" class="btn btn-primary " id="openModalAdd" data-toggle="modal"
+                            <button type="button" class="btn btn-primary mb-3 " id="openModalAdd" data-toggle="modal"
                                 data-target="#addUserModal"> + Usuario</button>
                             <thead>
                                 <tr>
@@ -167,18 +160,18 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="qrModalTitle">QR -
                                                                 {{ $users->name }}</h5>
-                                                      
+
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="d-flex justify-content-center">
-                                                              
+
                                                                 <img alt="Código QR" id="qr{{ $users->id }}">
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Cerrar</button>
-                                            
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,31 +201,564 @@
                     </table>
                 </div>
                 </div>
+                <!-- Modal CreateUser -->
+                <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form id="form" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre"
+                                            aria-describedby="emailHelp" placeholder="Nombre" name="nombre">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" id="phone" autocomplete="off"
+                                            placeholder="Phone" name="phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" autocomplete="off"
+                                            placeholder="Email" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contraseña">Contraseña</label>
+                                        <input type="password" class="form-control" id="contraseña"
+                                            placeholder="Contraseña" name="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nss">NSS</label>
+                                        <input type="text" class="form-control" id="nss"
+                                            placeholder="Numero de seguridad social" name="nss">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="curp">CURP</label>
+                                        <input type="text" class="form-control" id="curp" placeholder="CURP"
+                                            name="curp">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imagen">Imagen</label>
+                                        <input type="file" class="form-control" id="imagen" placeholder="imagen"
+                                            name="imagen" accept="image/*">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firma">Firma</label>
+                                        <input type="file" class="form-control" id="firma" placeholder="firma"
+                                            name="firma" accept="image/*">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipo">Tipo de Usuario</label>
+                                        <select id="rolSelect" class="form-control" name="tipoUser">
+                                            <option value="">Seleccionar</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group d-none" id="SupervisorForm">
+                                        <label for="supervisorSelect">Asignar a:</label>
+                                        <select name="supervisor" id="supervisorSelect" class="form-control"
+                                            name="supervisor"></select>
+                                    </div>
+                                    <div class="form-group d-none" id="areasForm">
+                                        <label for="areasSelect_new">Asignar a un area:</label>
+                                        <select name="areas" id="areasSelect_new" class="form-control"></select>
+                                    </div>
+
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" id="enviar">Guardar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal CreateUser -->
+                {{-- --------------- --}}
+                {{-- Modal Edit --}}
+                <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form id="form_edit" method="POST" action="{{ route('user.update') }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre_edit"
+                                            aria-describedby="emailHelp" placeholder="Nombre" name="nombre">
+                                       
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone_edit">Phone</label>
+                                        <input type="text" class="form-control" id="phone_edit" autocomplete="off"
+                                            placeholder="Phone" name="phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email_edit" autocomplete="off"
+                                            placeholder="Email" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contraseña">Contraseña</label>
+                                        <input type="password" class="form-control" id="contraseña_edit"
+                                            placeholder="Contraseña" name="contraseña" autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nss">NSS</label>
+                                        <input type="text" class="form-control" id="nss_edit"
+                                            placeholder="Numero de seguridad social" name="nssUpdate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="curp">CURP</label>
+                                        <input type="text" class="form-control" id="curp_edit" placeholder="CURP"
+                                            name="curpUpdate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imagen">Imagen</label>
+                                        <input type="file" class="form-control" id="imagenUpdate"
+                                            placeholder="imagen" name="imagenUpdate" accept="image/*">
+                                    </div>
+                                    <div class="form-group" id="conatinerImagen">
+                                        <label for="imagen">Imagen Actual</label>
+                                  
+                                        <div class="container">
+                                            <img src="" id="img_view" alt="" style="width:100%;">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firma">Firma</label>
+                                        <input type="file" class="form-control" id="firmaUpdate" placeholder="firma"
+                                            name="firmaUpdate" accept="image/*">
+                                    </div>
+                                    <div class="form-group" id="conatinerFirma">
+                                        <label for="firma">Firma Actual</label>
+                                        <div class="container">
+                                            <img src="" id="firma_view" alt="" style="width:100%;">
+                                        </div>
+                                    </div>
+                                           <div class="form-group">
+                                  
+                                        <input type="hidden" class="form-control" id="id_edit" autocomplete="off"
+                                            name="id">
+                                    </div>
+               
+                                    <div class="form-group" id="areasForm">
+                                        <label for="areasSelect_edit">Asignar a un area:</label>
+                                        <select name="areaupdate" id="areasSelect_edit" class="form-control"></select>
+                                    </div>
+                                  
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary" id="enviar_edit">Guardar</button>
+                                </form>
+                            </div>
+
+                        </div>
+                        {{-- Modal Edit --}}
+
+
+     
             </main>
+            <script>
+
+
+            //     $('.btn_update').on('click', function(e) {
+            //     e.preventDefault();
+            // });
+            
+            // $(function() {
+            //     $('#rolSelect').change(function() {
+            //         if ($(this).val() == "Instalador") {
+            //             $("#SupervisorForm").removeClass('d-none')
+            //             let route = "{{ route('supervisor.get') }}"
+            //             $.ajax({
+            //                 type: 'GET', //THIS NEEDS TO BE GET
+            //                 url: route,
+            //                 success: function(data) {
+            //                     console.log(data)
+            //                     data.forEach(function(element) {
+            //                         $("#supervisorSelect").append(
+            //                             "<option class='super' value='" +
+            //                             element.id + "'>" + element.name +
+            //                             "</option>")
+            //                     });
+            //                 },
+            //                 error: function() {
+            //                     console.log(data);
+            //                 }
+            //             });
+            //         } else {
+            //             if ($("#SupervisorForm").hasClass("seleccionado") > 0) {} else {
+            //                 $("#SupervisorForm").addClass('d-none')
+            //                 $(".super").remove()
+            //             }
+            //         }
+            //     })
+        
+                // // Validation form addUserupdate
+                // var form = "#formedit";
+                // $(form).validate({
+                //     rules: {
+                //         nameupdate: {
+                //             required: true
+                //         },
+                //         // emailupdate: {
+                //         //     required: true,
+                //         //     email: true
+                //         // },
+        
+                //         tipoUserupdate: {
+                //             required: true
+                //         },
+                //         areaupdate: {
+                //             required: true
+                //         },
+                //     },
+                //     messages: {
+                //         nameupdate: {
+                //             required: " * Ingrese un Nombre por favor"
+                //         },
+                //         emailupdate: {
+                //             required: " * Ingrese un email por favor",
+                //             emailupdate: " * Ingrese un email valido por favor"
+                //         },
+                //         tipoUserupdate: {
+                //             required: " * Ingrese un tipo de usuario"
+                //         },
+                //         areaupdate: {
+                //             required: " * Ingrese un supervisor encargado por favor"
+                //         },
+        
+                //     }
+                // });
+                // // Validation form addUser
+                // var form = "#form";
+                // $(form).validate({
+                //     rules: {
+                //         nombre: {
+                //             required: true
+                //         },
+                //         email: {
+                //             required: true,
+                //             email: true
+                //         },
+                //         tipoUser: {
+                //             required: true
+                //         },
+                //         supervisor: {
+                //             required: true
+                //         },
+                //         password: {
+                //             required: true
+                //         },
+                //     },
+                //     messages: {
+                //         nombre: {
+                //             required: " * Ingrese un Nombre por favor"
+                //         },
+                //         email: {
+                //             required: " * Ingrese un email por favor",
+                //             email: " * Ingrese un email valido por favor"
+                //         },
+                //         tipoUser: {
+                //             required: " * Ingrese un tipo de usuario"
+                //         },
+                //         areas: {
+                //             required: " * Asignar un area"
+                //         },
+                //         supervisor: {
+                //             required: " * Ingrese un supervisor encargado por favor"
+                //         },
+                //         password: {
+                //             required: " * Ingrese una contraseña por favor"
+                //         },
+                //     }
+                // });
+        
+        
+        //         $('#rolSelect').change(function() {
+        //             if ($(this).val() != 1) {
+        //                 $("#areasForm").removeClass('d-none')
+        //                 let route = "{{ route('areas.get') }}"
+        //                 $.ajax({
+        //                     type: 'GET', //THIS NEEDS TO BE GET
+        //                     url: route,
+        //                     success: function(data) {
+        //                         console.log(data)
+        //                         data.forEach(function(element) {
+        //                             $("#areasSelect_new").append(
+        //                                 "<option class='super' value='" + element.id +
+        //                                 "'>" + element.name + "</option>")
+        //                         });
+        //                     },
+        //                     error: function() {
+        //                         console.log(data);
+        //                     }
+        //                 });
+        //             } else {
+        //                 if ($("#areasForm").hasClass("seleccionado") > 0) {
+        
+        //                 } else {
+        //                     $("#areasForm").addClass('d-none')
+        //                     $(".super").remove()
+        //                 }
+        //             }
+        
+        //         });
+        
+        
+        
+        //     $("#enviar").on('click', function() {
+        //         if ($(form).valid()) {
+        //             $("#addUserModal").modal("hide");
+        //             $(".modal-backdrop").remove();
+        //             $('body').removeClass('modal-open');
+        //             $("#addUserModal").removeClass("show");
+        //             $("#addUserModal").removeAttr("aria-modal");
+        //             $("#addUserModal").removeAttr("role");
+        //             $("#addUserModal").attr("aria-hidden", "true");
+        //             $("#addUserModal").css('display', 'none')
+        //             let route = "{{ route('crear.usuario') }}";
+        //             $.ajax({
+        //                 type: 'POST', //THIS NEEDS TO BE GET
+        //                 url: route,
+        //                 data: new FormData(form),
+        //                 processData: false,
+        // contentType: false,
+        //                 success: function(data) {
+        //                     // if(data.status == 200){
+        //                     console.log(data)
+        //                     Swal.fire(
+        //                         'Excelente',
+        //                         'Guardado con Exito',
+        //                         'success'
+        //                     )
+        
+        //                 },
+        //                 error: function(data) {
+        //                     if (data.status == 500) {
+        //                         Swal.fire({
+        //                             position: 'center',
+        //                             icon: 'warning',
+        //                             title: 'Usuario ya registrado.',
+        //                             showConfirmButton: false,
+        //                             timer: 1500
+        //                         })
+        //                     }
+        //                     console.log(data);
+        //                 }
+        //             });
+        //         }
+        //     })
+        //     let route = "{{ route('roles.get') }}";
+        //             $.ajax({
+        //                 type: 'GET', //THIS NEEDS TO BE GET
+        //                 url: route,
+        //         success: function(data) {
+        //             data.forEach(function(element) {
+        //                 $("#rolSelect").append("<option value='" + element.name + "'>" + element.name +
+        //                     "</option>")
+        //             });
+        //         },
+        //         error: function() {
+        //             console.log(data);
+        //         }
+        //     });
+        
+        
+        
+        //     //  Update User get elements
+        //     $(".fa-pen-to-square").on('click', function(){
+        //     console.log("hello")
+        //         // Sanitize form prev
+        //         // alert($("#form_edit select option").length)
+        //         if($("#form_edit select option").length > 0){
+        //             $("#form_edit select").empty()
+        //         }
+        //         $("#form_edit input[type=text] , #form_edit textarea").each(function() { this.value = '' });
+        //         $("#form_edit img").each(function() { $(this).attr('src','') });
+        //         // Sanitize form prev
+        //         // Inputs
+        //         $('#nombre_edit').val($(this).data('nombre'));
+        //         $('#email_edit').val($(this).data('email'));
+        //         $('#phone_edit').val($(this).data('phone'));
+        //         $('#nss_edit').val($(this).data('nss'));
+        //         $('#curp_edit').val($(this).data('curp'));
+        //         if($(this).data('image') == "" || $(this).data('image') == 'undefined'){
+        //             $("#conatinerImagen").hide();
+        //         }else{
+        //             $('#img_view').attr('src',"/storage/personales/"+$(this).data('id')+"/"+$(this).data('image'));
+        //         }
+        //         if($(this).data('firma') == "" || $(this).data('firma') == 'undefined'){
+        //             $("#conatinerFirma").hide();
+        //         }else{
+        //             $('#firma_view').attr('src',"/storage/personales/"+$(this).data('id')+"/"+$(this).data('firma'));
+        //         }
+        
+        //         $('#contraseña_edit').val();
+        //         rol = $(this).data('rol');
+        //         area = $(this).data('area');
+        //         $('#rolSelect_edit').val(getRoles("rolSelect_edit",rol));
+        //         getAreas("areasSelect_edit",area);
+        
+        //         $("#id_edit").val($(this).data('id'))
+        //         // Inputs
+        //     })
+        //     //  Update User get elements
+        //     function getRoles(id,rol){
+        //         $.ajax({
+        //         type: 'GET', //THIS NEEDS TO BE GET
+        //         url: "getRoles/roles",
+        //         success: function(data) {
+        //             data.forEach(function(element) {
+        //                 if(element.name == rol){
+        //                     $("#"+id).append("<option value='" + element.name + "' selected>" + element.name +
+        //                     "</option>")
+        //                 }else{
+        //                 $("#"+id).append("<option value='" + element.name + "'>" + element.name +
+        //                     "</option>")
+        //                 }
+        //             });
+        //         },
+        //         error: function() {
+        //             console.log(data);
+        //         }
+        //     });
+        //     }
+        //     function getAreas(id,rol){
+        //         $.ajax({
+        //         type: 'GET', //THIS NEEDS TO BE GET
+        //         url: "getAreas/areas",
+        //         success: function(data) {
+        //             console.log(data);
+        //             data.forEach(function(element) {
+        //                 if(element.name == rol){
+        //                     $("#"+id).append("<option value='" + element.id + "' selected>" + element.name +
+        //                     "</option>")
+        //                 }else{
+        //                 $("#"+id).append("<option value='" + element.id + "'>" + element.name +
+        //                     "</option>")
+        //                 }
+        //             });
+        //         },
+        //         error: function() {
+        //             console.log(data);
+        //         }
+        //     });
+        //     }
+        //     // Open Modal Sanitize
+        //     $("#openModalAdd").on('click', function () {
+        //         // if($("#form select option").length > 0){
+        //         //     $("#form select").empty()
+        //         // }
+        //         $("#form input[type=text] , #form textarea,form input[type=email],form input[type=password]  ").each(function() { this.value = '' });
+        //      })
+        //     // Open Modal Sanitize
+        //     // Status Switch
+        //     $(".switchStatusUser").on('click',function () {
+        //         let status;
+        //         if($(this).hasClass('fa-toggle-on')){
+        //             $(this).removeClass('fa-toggle-on');
+        //             $(this).addClass('fa-toggle-off');
+        //             status = 0;
+        //         }else{
+        //             $(this).removeClass('fa-toggle-off');
+        //             $(this).addClass('fa-toggle-on');
+        //             status = 1;
+        //         }
+        //         id = $(this).data('id')
+        //         // alert(status);
+        //         $.ajax({
+        //             type: 'GET', //THIS NEEDS TO BE GET
+        //             url: "updateStatusUsers",
+        //             data: {id: id, status: status},
+        //             success: function(data) {
+        //                 console.log(data);
+        //                 if(data == 1){
+        //                     Swal.fire({
+        //                     icon: 'success',
+        //                     title: 'Estatus Actualizado',
+        //                     showConfirmButton: false,
+        //                     timer: 1000
+        //                     })
+        //                 }
+        //             },
+        //             error: function() {
+        //                 console.log(data);
+        //             }
+        //         });
+        //       })
+        //     // Status Switch
+        //     $(".fa-qrcode").on('click',function(){
+        //         createQr($(this).data('id'));
+        //     });
+        //     function createQr(id) {
+        //         var url = location.host;
+        //         url = "https://"+url
+        //         new QRious({
+        //             element: document.querySelector(`#qr${id}`),
+        //             value: url+"/qrCode/"+id, // La URL o el texto
+        //             size: 150,
+        //             backgroundAlpha: 0, // 0 para fondo transparente
+        //             level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+        //         });
+        //     }
+            $(function() {
+                    let route = "{{ route('puesto.get') }}";
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: route,
+                        success: function(data) {
+                            data.forEach(function(element) {
+                                $("#puestoSelect").append(
+                                    "<option class='super' value='" + element.id +
+                                    "'>" + element.name + "</option>")
+                            });
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    });
+        
+                });
+        
+                $(function() {
+                    let route = "{{ route('areas.get') }}";
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: route,
+                        success: function(data) {
+                            data.forEach(function(element) {
+                                $("#areasSelect").append(
+                                    "<option class='super' value='" + element.id +
+                                    "'>" + element.name + "</option>")
+                            });
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    })
+                });
+        
+                $('#rolSelect_edit').val(getRoles("rolSelect_edit", rol));
+                            getAreas("areasSelect_edit", area);
+        
+        </script>
         </section>
         <!-- users list ends -->
     @endsection
 
-    @section('vendor-script')
-        {{-- Vendor js files --}}
-        <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap5.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/forms/cleave/cleave.min.js')) }}"></script>
-        <script src="{{ asset(mix('vendors/js/forms/cleave/addons/cleave-phone.us.js')) }}"></script>
-    @endsection
-
-    @section('page-script')
-        {{-- Page js files --}}
-        <script src="{{ asset(mix('js/scripts/pages/app-user-list.js')) }}"></script>
-    @endsection
+  

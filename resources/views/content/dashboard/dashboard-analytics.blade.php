@@ -40,6 +40,8 @@
     <section id="dashboard-analytics">
         @php
             $user = Auth::user();
+            $configData = Helper::applClasses();
+         
         @endphp
         {{-- NavBar --}}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -126,9 +128,10 @@
                         <div class="col-4 col-lg-3">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Puesto</label>
-                                <select name="puesto" id="puestoSelect" class="form-control">
+                                    <select name="puesto" id="puestoSelect" class="form-control" >
                                     <option value=""> Seleccionar </option>
                                 </select>
+                            
                             </div>
                         </div>
                         <div class="col-4 col-lg-3">
