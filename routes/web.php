@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DashboardController;
@@ -60,7 +61,7 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('file-manager', [AppsController::class, 'file_manager'])->name('app-file-manager');
     Route::get('access-roles', [AppsController::class, 'access_roles'])->name('app-access-roles');
     Route::get('access-permission', [AppsController::class, 'access_permission'])->name('app-access-permission');
-    Route::get('user/list', [AppsController::class, 'user_list'])->name('app-user-list');
+    Route::get('user/list', [AdminController::class, 'userView'])->name('app-user-list');
     Route::get('user/view/account', [AppsController::class, 'user_view_account'])->name('app-user-view-account');
     Route::get('user/view/security', [AppsController::class, 'user_view_security'])->name('app-user-view-security');
     Route::get('user/view/billing', [AppsController::class, 'user_view_billing'])->name('app-user-view-billing');
@@ -271,3 +272,10 @@ Route::post('/horaiosUpdate',[\App\Http\Controllers\HorariosController::class,'u
 Route::post('upluadJustify',[\App\Http\Controllers\AdminController::class,'upluadJustify'])->name('subirJustificacion');
 Route::get('showfaltaJusticada',[\App\Http\Controllers\AdminController::class,'showJustyFaltas'])->name('mostra.faltas');
 Route::post('historial/userlist',[\App\Http\Controllers\AdminController::class,'historialUserList'])->name('admin.historial.userlist');
+
+
+// qr
+Route::get('qrCode/{id}', [\App\Http\Controllers\QrCodeController::class, 'index']);
+Route::get('qr/pdf{id}', [\App\Http\Controllers\QrCodeController::class, 'download'])->name('qr.pdf');
+
+// qr

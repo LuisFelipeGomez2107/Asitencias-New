@@ -165,6 +165,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -203,6 +204,7 @@ return [
         'Helper' => App\Helpers\Helpers::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'TestFacades' => App\Test\Facades\TestFacades::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ])->toArray(),
 
 ];

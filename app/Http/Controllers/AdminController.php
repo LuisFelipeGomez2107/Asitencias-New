@@ -125,4 +125,28 @@ class AdminController extends Controller
 
         return view('admin.user', compact('usuario'));
     }
+
+    public function userView()
+    {
+
+        $user = Auth::user();
+        if ($user->hasRole('Admin')) {
+            $usuario = User::join('areas', 'users.areas_id', 'areas.id')
+                ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', 'roles.id')
+                ->join('users_has_status', 'users.id', 'users_has_status.user_id')
+                ->select('users.*', 'areas.name as Areas', 'roles.name AS rol', 'users_has_status.status as status')
+                ->get();
+        } else {
+            $usuario = User::join('areas', 'users.areas_id', 'areas.id')
+                ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', 'roles.id')
+                ->join('users_has_status', 'users.id', 'users_has_status.user_id')
+                ->where('users.areas_id', $user->areas_id)
+                ->select('users.*', 'areas.name as Areas', 'roles.name AS rol', 'users_has_status.status as status')
+                ->get();
+        }
+
+        return view('content/apps/user/app-user-list', compact('usuario'));
+    }
 }
