@@ -5,7 +5,7 @@
 
 @section('vendor-style')
     {{-- Page Css files --}}
-    
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
@@ -191,8 +191,7 @@
                                         {{-- button credencial --}}
 
                                         <td>
-                                            <i style="cursor: pointer;"
-                                                class="@php if($users->status == 1) echo "fas fa-toggle-on switchStatusUser"; else echo "fas fa-toggle-off switchStatusUser"; @endphp"
+                                            <i style="cursor: pointer;" class="@php if($users->status == 1) echo "fas fa-toggle-on switchStatusUser"; else echo "fas fa-toggle-off switchStatusUser"; @endphp"
                                                 data-id="{{ $users->id }}"></i>
                                         </td>
                                     </tr>
@@ -298,7 +297,7 @@
                                         <label for="nombre">Nombre</label>
                                         <input type="text" class="form-control" id="nombre_edit"
                                             aria-describedby="emailHelp" placeholder="Nombre" name="nombre">
-                                       
+
                                     </div>
                                     <div class="form-group">
                                         <label for="phone_edit">Phone</label>
@@ -332,7 +331,7 @@
                                     </div>
                                     <div class="form-group" id="conatinerImagen">
                                         <label for="imagen">Imagen Actual</label>
-                                  
+
                                         <div class="container">
                                             <img src="" id="img_view" alt="" style="width:100%;">
                                         </div>
@@ -348,17 +347,17 @@
                                             <img src="" id="firma_view" alt="" style="width:100%;">
                                         </div>
                                     </div>
-                                           <div class="form-group">
-                                  
+                                    <div class="form-group">
+
                                         <input type="hidden" class="form-control" id="id_edit" autocomplete="off"
                                             name="id">
                                     </div>
-               
+
                                     <div class="form-group" id="areasForm">
                                         <label for="areasSelect_edit">Asignar a un area:</label>
                                         <select name="areaupdate" id="areasSelect_edit" class="form-control"></select>
                                     </div>
-                                  
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -370,45 +369,44 @@
                         {{-- Modal Edit --}}
 
 
-     
+
             </main>
             <script>
+                // $('.btn_update').on('click', function(e) {
+                //     e.preventDefault();
+                // });
 
+                $(function() {
+                    $('#rolSelect').change(function() {
+                        if ($(this).val() == "Instalador") {
+                            $("#SupervisorForm").removeClass('d-none')
+                            let route = "{{ route('supervisor.get') }}"
+                            $.ajax({
+                                type: 'GET', //THIS NEEDS TO BE GET
+                                url: route,
+                                success: function(data) {
+                                    console.log(data)
+                                    data.forEach(function(element) {
+                                        $("#supervisorSelect").append(
+                                            "<option class='super' value='" +
+                                            element.id + "'>" + element.name +
+                                            "</option>")
+                                    });
+                                },
+                                error: function() {
+                                    console.log(data);
+                                }
+                            });
+                        } else {
+                            if ($("#SupervisorForm").hasClass("seleccionado") > 0) {} else {
+                                $("#SupervisorForm").addClass('d-none')
+                                $(".super").remove()
+                            }
+                        }
+                    })
+                });
 
-            //     $('.btn_update').on('click', function(e) {
-            //     e.preventDefault();
-            // });
-            
-            // $(function() {
-            //     $('#rolSelect').change(function() {
-            //         if ($(this).val() == "Instalador") {
-            //             $("#SupervisorForm").removeClass('d-none')
-            //             let route = "{{ route('supervisor.get') }}"
-            //             $.ajax({
-            //                 type: 'GET', //THIS NEEDS TO BE GET
-            //                 url: route,
-            //                 success: function(data) {
-            //                     console.log(data)
-            //                     data.forEach(function(element) {
-            //                         $("#supervisorSelect").append(
-            //                             "<option class='super' value='" +
-            //                             element.id + "'>" + element.name +
-            //                             "</option>")
-            //                     });
-            //                 },
-            //                 error: function() {
-            //                     console.log(data);
-            //                 }
-            //             });
-            //         } else {
-            //             if ($("#SupervisorForm").hasClass("seleccionado") > 0) {} else {
-            //                 $("#SupervisorForm").addClass('d-none')
-            //                 $(".super").remove()
-            //             }
-            //         }
-            //     })
-        
-                // // Validation form addUserupdate
+                // Validation form addUserupdate
                 // var form = "#formedit";
                 // $(form).validate({
                 //     rules: {
@@ -419,7 +417,7 @@
                 //         //     required: true,
                 //         //     email: true
                 //         // },
-        
+
                 //         tipoUserupdate: {
                 //             required: true
                 //         },
@@ -441,7 +439,7 @@
                 //         areaupdate: {
                 //             required: " * Ingrese un supervisor encargado por favor"
                 //         },
-        
+
                 //     }
                 // });
                 // // Validation form addUser
@@ -487,236 +485,254 @@
                 //         },
                 //     }
                 // });
-        
-        
-        //         $('#rolSelect').change(function() {
-        //             if ($(this).val() != 1) {
-        //                 $("#areasForm").removeClass('d-none')
-        //                 let route = "{{ route('areas.get') }}"
-        //                 $.ajax({
-        //                     type: 'GET', //THIS NEEDS TO BE GET
-        //                     url: route,
-        //                     success: function(data) {
-        //                         console.log(data)
-        //                         data.forEach(function(element) {
-        //                             $("#areasSelect_new").append(
-        //                                 "<option class='super' value='" + element.id +
-        //                                 "'>" + element.name + "</option>")
-        //                         });
-        //                     },
-        //                     error: function() {
-        //                         console.log(data);
-        //                     }
-        //                 });
-        //             } else {
-        //                 if ($("#areasForm").hasClass("seleccionado") > 0) {
-        
-        //                 } else {
-        //                     $("#areasForm").addClass('d-none')
-        //                     $(".super").remove()
-        //                 }
-        //             }
-        
-        //         });
-        
-        
-        
-        //     $("#enviar").on('click', function() {
-        //         if ($(form).valid()) {
-        //             $("#addUserModal").modal("hide");
-        //             $(".modal-backdrop").remove();
-        //             $('body').removeClass('modal-open');
-        //             $("#addUserModal").removeClass("show");
-        //             $("#addUserModal").removeAttr("aria-modal");
-        //             $("#addUserModal").removeAttr("role");
-        //             $("#addUserModal").attr("aria-hidden", "true");
-        //             $("#addUserModal").css('display', 'none')
-        //             let route = "{{ route('crear.usuario') }}";
-        //             $.ajax({
-        //                 type: 'POST', //THIS NEEDS TO BE GET
-        //                 url: route,
-        //                 data: new FormData(form),
-        //                 processData: false,
-        // contentType: false,
-        //                 success: function(data) {
-        //                     // if(data.status == 200){
-        //                     console.log(data)
-        //                     Swal.fire(
-        //                         'Excelente',
-        //                         'Guardado con Exito',
-        //                         'success'
-        //                     )
-        
-        //                 },
-        //                 error: function(data) {
-        //                     if (data.status == 500) {
-        //                         Swal.fire({
-        //                             position: 'center',
-        //                             icon: 'warning',
-        //                             title: 'Usuario ya registrado.',
-        //                             showConfirmButton: false,
-        //                             timer: 1500
-        //                         })
-        //                     }
-        //                     console.log(data);
-        //                 }
-        //             });
-        //         }
-        //     })
-        //     let route = "{{ route('roles.get') }}";
-        //             $.ajax({
-        //                 type: 'GET', //THIS NEEDS TO BE GET
-        //                 url: route,
-        //         success: function(data) {
-        //             data.forEach(function(element) {
-        //                 $("#rolSelect").append("<option value='" + element.name + "'>" + element.name +
-        //                     "</option>")
-        //             });
-        //         },
-        //         error: function() {
-        //             console.log(data);
-        //         }
-        //     });
-        
-        
-        
-        //     //  Update User get elements
-        //     $(".fa-pen-to-square").on('click', function(){
-        //     console.log("hello")
-        //         // Sanitize form prev
-        //         // alert($("#form_edit select option").length)
-        //         if($("#form_edit select option").length > 0){
-        //             $("#form_edit select").empty()
-        //         }
-        //         $("#form_edit input[type=text] , #form_edit textarea").each(function() { this.value = '' });
-        //         $("#form_edit img").each(function() { $(this).attr('src','') });
-        //         // Sanitize form prev
-        //         // Inputs
-        //         $('#nombre_edit').val($(this).data('nombre'));
-        //         $('#email_edit').val($(this).data('email'));
-        //         $('#phone_edit').val($(this).data('phone'));
-        //         $('#nss_edit').val($(this).data('nss'));
-        //         $('#curp_edit').val($(this).data('curp'));
-        //         if($(this).data('image') == "" || $(this).data('image') == 'undefined'){
-        //             $("#conatinerImagen").hide();
-        //         }else{
-        //             $('#img_view').attr('src',"/storage/personales/"+$(this).data('id')+"/"+$(this).data('image'));
-        //         }
-        //         if($(this).data('firma') == "" || $(this).data('firma') == 'undefined'){
-        //             $("#conatinerFirma").hide();
-        //         }else{
-        //             $('#firma_view').attr('src',"/storage/personales/"+$(this).data('id')+"/"+$(this).data('firma'));
-        //         }
-        
-        //         $('#contraseña_edit').val();
-        //         rol = $(this).data('rol');
-        //         area = $(this).data('area');
-        //         $('#rolSelect_edit').val(getRoles("rolSelect_edit",rol));
-        //         getAreas("areasSelect_edit",area);
-        
-        //         $("#id_edit").val($(this).data('id'))
-        //         // Inputs
-        //     })
-        //     //  Update User get elements
-        //     function getRoles(id,rol){
-        //         $.ajax({
-        //         type: 'GET', //THIS NEEDS TO BE GET
-        //         url: "getRoles/roles",
-        //         success: function(data) {
-        //             data.forEach(function(element) {
-        //                 if(element.name == rol){
-        //                     $("#"+id).append("<option value='" + element.name + "' selected>" + element.name +
-        //                     "</option>")
-        //                 }else{
-        //                 $("#"+id).append("<option value='" + element.name + "'>" + element.name +
-        //                     "</option>")
-        //                 }
-        //             });
-        //         },
-        //         error: function() {
-        //             console.log(data);
-        //         }
-        //     });
-        //     }
-        //     function getAreas(id,rol){
-        //         $.ajax({
-        //         type: 'GET', //THIS NEEDS TO BE GET
-        //         url: "getAreas/areas",
-        //         success: function(data) {
-        //             console.log(data);
-        //             data.forEach(function(element) {
-        //                 if(element.name == rol){
-        //                     $("#"+id).append("<option value='" + element.id + "' selected>" + element.name +
-        //                     "</option>")
-        //                 }else{
-        //                 $("#"+id).append("<option value='" + element.id + "'>" + element.name +
-        //                     "</option>")
-        //                 }
-        //             });
-        //         },
-        //         error: function() {
-        //             console.log(data);
-        //         }
-        //     });
-        //     }
-        //     // Open Modal Sanitize
-        //     $("#openModalAdd").on('click', function () {
-        //         // if($("#form select option").length > 0){
-        //         //     $("#form select").empty()
-        //         // }
-        //         $("#form input[type=text] , #form textarea,form input[type=email],form input[type=password]  ").each(function() { this.value = '' });
-        //      })
-        //     // Open Modal Sanitize
-        //     // Status Switch
-        //     $(".switchStatusUser").on('click',function () {
-        //         let status;
-        //         if($(this).hasClass('fa-toggle-on')){
-        //             $(this).removeClass('fa-toggle-on');
-        //             $(this).addClass('fa-toggle-off');
-        //             status = 0;
-        //         }else{
-        //             $(this).removeClass('fa-toggle-off');
-        //             $(this).addClass('fa-toggle-on');
-        //             status = 1;
-        //         }
-        //         id = $(this).data('id')
-        //         // alert(status);
-        //         $.ajax({
-        //             type: 'GET', //THIS NEEDS TO BE GET
-        //             url: "updateStatusUsers",
-        //             data: {id: id, status: status},
-        //             success: function(data) {
-        //                 console.log(data);
-        //                 if(data == 1){
-        //                     Swal.fire({
-        //                     icon: 'success',
-        //                     title: 'Estatus Actualizado',
-        //                     showConfirmButton: false,
-        //                     timer: 1000
-        //                     })
-        //                 }
-        //             },
-        //             error: function() {
-        //                 console.log(data);
-        //             }
-        //         });
-        //       })
-        //     // Status Switch
-        //     $(".fa-qrcode").on('click',function(){
-        //         createQr($(this).data('id'));
-        //     });
-        //     function createQr(id) {
-        //         var url = location.host;
-        //         url = "https://"+url
-        //         new QRious({
-        //             element: document.querySelector(`#qr${id}`),
-        //             value: url+"/qrCode/"+id, // La URL o el texto
-        //             size: 150,
-        //             backgroundAlpha: 0, // 0 para fondo transparente
-        //             level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
-        //         });
-        //     }
-            $(function() {
+
+
+                $('#rolSelect').change(function() {
+                    if ($(this).val() != 1) {
+                        $("#areasForm").removeClass('d-none')
+                        let route = "{{ route('areas.get') }}"
+                        $.ajax({
+                            type: 'GET', //THIS NEEDS TO BE GET
+                            url: route,
+                            success: function(data) {
+                                console.log(data)
+                                data.forEach(function(element) {
+                                    $("#areasSelect_new").append(
+                                        "<option class='super' value='" + element.id +
+                                        "'>" + element.name + "</option>")
+                                });
+                            },
+                            error: function() {
+                                console.log(data);
+                            }
+                        });
+                    } else {
+                        if ($("#areasForm").hasClass("seleccionado") > 0) {
+
+                        } else {
+                            $("#areasForm").addClass('d-none')
+                            $(".super").remove()
+                        }
+                    }
+
+                });
+
+
+
+                $("#enviar").on('click', function() {
+                    if ($(form).valid()) {
+                        $("#addUserModal").modal("hide");
+                        $(".modal-backdrop").remove();
+                        $('body').removeClass('modal-open');
+                        $("#addUserModal").removeClass("show");
+                        $("#addUserModal").removeAttr("aria-modal");
+                        $("#addUserModal").removeAttr("role");
+                        $("#addUserModal").attr("aria-hidden", "true");
+                        $("#addUserModal").css('display', 'none')
+                        let route = "{{ route('crear.usuario') }}";
+                        $.ajax({
+                            type: 'POST', //THIS NEEDS TO BE GET
+                            url: route,
+                            data: new FormData(form),
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                                // if(data.status == 200){
+                                console.log(data)
+                                Swal.fire(
+                                    'Excelente',
+                                    'Guardado con Exito',
+                                    'success'
+                                )
+
+                            },
+                            error: function(data) {
+                                if (data.status == 500) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'warning',
+                                        title: 'Usuario ya registrado.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+                                console.log(data);
+                            }
+                        });
+                    }
+                })
+                // let route = "{{ route('roles.get') }}";
+                //         $.ajax({
+                //             type: 'GET', //THIS NEEDS TO BE GET
+                //             url: route,
+                //     success: function(data) {
+                //         data.forEach(function(element) {
+                //             $("#rolSelect").append("<option value='" + element.name + "'>" + element.name +
+                //                 "</option>")
+                //         });
+                //     },
+                //     error: function() {
+                //         console.log(data);
+                //     }
+                // });
+
+
+
+                //  Update User get elements
+                $(".fa-pen-to-square").on('click', function() {
+                    console.log("hello")
+                    // Sanitize form prev
+                    // alert($("#form_edit select option").length)
+                    if ($("#form_edit select option").length > 0) {
+                        $("#form_edit select").empty()
+                    }
+                    $("#form_edit input[type=text] , #form_edit textarea").each(function() {
+                        this.value = ''
+                    });
+                    $("#form_edit img").each(function() {
+                        $(this).attr('src', '')
+                    });
+                    // Sanitize form prev
+                    // Inputs
+                    $('#nombre_edit').val($(this).data('nombre'));
+                    $('#email_edit').val($(this).data('email'));
+                    $('#phone_edit').val($(this).data('phone'));
+                    $('#nss_edit').val($(this).data('nss'));
+                    $('#curp_edit').val($(this).data('curp'));
+                    if ($(this).data('image') == "" || $(this).data('image') == 'undefined') {
+                        $("#conatinerImagen").hide();
+                    } else {
+                        $('#img_view').attr('src', "/storage/personales/" + $(this).data('id') + "/" + $(this).data(
+                            'image'));
+                    }
+                    if ($(this).data('firma') == "" || $(this).data('firma') == 'undefined') {
+                        $("#conatinerFirma").hide();
+                    } else {
+                        $('#firma_view').attr('src', "/storage/personales/" + $(this).data('id') + "/" + $(this).data(
+                            'firma'));
+                    }
+
+                    $('#contraseña_edit').val();
+                    rol = $(this).data('rol');
+                    area = $(this).data('area');
+                    $('#rolSelect_edit').val(getRoles("rolSelect_edit", rol));
+                    getAreas("areasSelect_edit", area);
+
+                    $("#id_edit").val($(this).data('id'))
+                    // Inputs
+                })
+                //  Update User get elements
+                function getRoles(id, rol) {
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: "getRoles/roles",
+                        success: function(data) {
+                            data.forEach(function(element) {
+                                if (element.name == rol) {
+                                    $("#" + id).append("<option value='" + element.name + "' selected>" +
+                                        element.name +
+                                        "</option>")
+                                } else {
+                                    $("#" + id).append("<option value='" + element.name + "'>" + element.name +
+                                        "</option>")
+                                }
+                            });
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    });
+                }
+
+                function getAreas(id, rol) {
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: "getAreas/areas",
+                        success: function(data) {
+                            console.log(data);
+                            data.forEach(function(element) {
+                                if (element.name == rol) {
+                                    $("#" + id).append("<option value='" + element.id + "' selected>" + element
+                                        .name +
+                                        "</option>")
+                                } else {
+                                    $("#" + id).append("<option value='" + element.id + "'>" + element.name +
+                                        "</option>")
+                                }
+                            });
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    });
+                }
+                // Open Modal Sanitize
+                $("#openModalAdd").on('click', function() {
+                    // if($("#form select option").length > 0){
+                    //     $("#form select").empty()
+                    // }
+                    $("#form input[type=text] , #form textarea,form input[type=email],form input[type=password]  ").each(
+                        function() {
+                            this.value = ''
+                        });
+                })
+                // Open Modal Sanitize
+                // Status Switch
+                $(".switchStatusUser").on('click', function() {
+                    let status;
+                    if ($(this).hasClass('fa-toggle-on')) {
+                        $(this).removeClass('fa-toggle-on');
+                        $(this).addClass('fa-toggle-off');
+                        status = 0;
+                    } else {
+                        $(this).removeClass('fa-toggle-off');
+                        $(this).addClass('fa-toggle-on');
+                        status = 1;
+                    }
+                    id = $(this).data('id')
+                    // alert(status);
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: "updateStatusUsers",
+                        data: {
+                            id: id,
+                            status: status
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            if (data == 1) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Estatus Actualizado',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                            }
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    });
+                })
+                // Status Switch
+                $(".fa-qrcode").on('click', function() {
+                    createQr($(this).data('id'));
+                });
+
+                function createQr(id) {
+                    var url = location.host;
+                    url = "https://" + url
+                    new QRious({
+                        element: document.querySelector(`#qr${id}`),
+                        value: url + "/qrCode/" + id, // La URL o el texto
+                        size: 150,
+                        backgroundAlpha: 0, // 0 para fondo transparente
+                        level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+                    });
+                }
+
+                // Trae los Puestos del Select para el buscador
+                $(function() {
                     let route = "{{ route('puesto.get') }}";
                     $.ajax({
                         type: 'GET', //THIS NEEDS TO BE GET
@@ -732,9 +748,10 @@
                             console.log(data);
                         }
                     });
-        
+
                 });
-        
+
+                // Trae las Areas del Select para el buscador
                 $(function() {
                     let route = "{{ route('areas.get') }}";
                     $.ajax({
@@ -752,13 +769,10 @@
                         }
                     })
                 });
-        
+
                 $('#rolSelect_edit').val(getRoles("rolSelect_edit", rol));
-                            getAreas("areasSelect_edit", area);
-        
-        </script>
+                getAreas("areasSelect_edit", area);
+            </script>
         </section>
         <!-- users list ends -->
     @endsection
-
-  
