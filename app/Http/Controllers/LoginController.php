@@ -41,7 +41,7 @@ class LoginController extends Controller
 
             }
             if($roleNames[0] =='Instalador' || $roleNames[0] =='Almacenista' || $roleNames[0] == 'Administrativo' || $roleNames[0]=='Mecanico'){
-                return view('dashboard');
+                return view('dashboardInstalador.dashboard');
 
             }
             if($roleNames[0] =='Supervisor'){

@@ -37,7 +37,9 @@
         </style>
         <!-- Dashboard Analytics Start -->
         <section id="dashboard-analytics">
+            
             @php
+            
                 $user = Auth::user();
             @endphp
             {{-- NavBar --}}
