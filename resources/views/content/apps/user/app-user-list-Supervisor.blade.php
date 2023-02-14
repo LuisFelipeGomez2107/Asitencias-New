@@ -55,7 +55,7 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link @if (Request::url() == 'admin') {{ 'active' }} @endif"
-                                    aria-current="1page" href="{{ route('dashboard-analytics') }}">Dashboard</a>
+                                    aria-current="1page" href="{{ route('dashboard-ecommerce') }}">Dashboard</a>
                             </li>
             </nav>
 

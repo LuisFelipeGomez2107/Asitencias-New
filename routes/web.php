@@ -49,6 +49,7 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('chat', [AppsController::class, 'chatApp'])->name('app-chat');
     Route::get('todo', [AppsController::class, 'todoApp'])->name('app-todo');
     Route::get('calendar', [HorariosController::class, 'index'])->name('app-calendar');
+    Route::get('calendar', [HorariosController::class, 'IndexSupervisor'])->name('app-calendar-supervisor');
     Route::get('kanban', [AppsController::class, 'kanbanApp'])->name('app-kanban');
     Route::get('invoice/list', [AppsController::class, 'invoice_list'])->name('app-invoice-list');
     Route::get('invoice/preview', [AppsController::class, 'invoice_preview'])->name('app-invoice-preview');

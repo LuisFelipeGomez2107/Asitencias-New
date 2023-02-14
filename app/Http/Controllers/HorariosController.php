@@ -18,6 +18,17 @@ class HorariosController extends Controller
         return view('/content/apps/calendar/app-calendar' , compact('horarios'));
     }
 
+    public function indexSupervisor(Request $request){
+   
+
+        $horarios=Tolerancia::where('status','active')
+        ->get();
+        
+      
+
+        return view('/content/apps/calendar/app-calendar-supervisor' , compact('horarios'));
+    }
+
 
     public function update(Request $request){
 
