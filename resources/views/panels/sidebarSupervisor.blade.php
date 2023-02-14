@@ -30,9 +30,10 @@ $configData = Helper::applClasses();
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
       {{-- Foreach menu item starts --}}
      
-      @if (isset($menuData[0]))
+    
+      @if (isset($menuData[2]))
 
-             @foreach ($menuData[0]->menu as $menu)
+             @foreach ($menuData[2]->menu as $menu)
         
              
           @if (isset($menu->navheader))

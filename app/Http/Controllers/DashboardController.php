@@ -370,10 +370,106 @@ class DashboardController extends Controller
 
 
     // Dashboard - Ecommerce
-    public function dashboardEcommerce()
+    public function dashboardEcommerce(Request $request)
     {
-        $pageConfigs = ['pageHeader' => false];
+        $requestDateInicio = date($request->dateInicio);
+        $requestDateFinal = date($request->dateFinal);
+        $requestArea = $request->area;
+        $dateI = date_format(date_create($request->dateInicio), "Y-m-d");
+        $dateF = date_create($request->dateFinal);
+        $dateInitial = $request->dateInicio;
+        $requestArea = $request->area;
+        $requestpuesto = $request->puesto;
+        $requestnombre = $request->nombre;
 
-        return view('/content/dashboard/dashboard-ecommerce', ['pageConfigs' => $pageConfigs]);
+        $user = Auth::user();
+
+        $usuarios = User::join('areas', 'users.areas_id', 'areas.id')
+            ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', 'roles.id')
+            ->join('users_has_status', 'users.id', 'users_has_status.user_id')
+            ->where('users.areas_id', $user->areas_id)
+            ->when($request->area, function ($usuarios, $area) {
+                return $usuarios->where('users.areas_id', $area);
+            })
+            ->when($request->puesto, function ($usuarios, $puesto) {
+                return $usuarios
+                    ->where('roles.id', $puesto);
+            })
+            ->when($request->nombre, function ($usuarios, $nombre) {
+                return $usuarios->where('users.name', 'like', "%" . $nombre . "%");
+            })
+            ->select('users.*', 'areas.name as Areas', 'roles.name AS rol', 'users_has_status.status as status')
+            ->get();
+            $fF = date("Y-m-t");
+
+
+            if ($requestDateInicio != "") {
+                $dia_fecha_inicial  = date("j", strtotime($requestDateInicio));
+            } else {
+                $dia_fecha_inicial = 1;
+            }
+            // dd($dia_fecha_inicial);
+            // $dia_fecha_inicial = 1;
+
+            if ($requestDateFinal != "") {
+                $dia_fecha_final  = date("j", strtotime($requestDateFinal));
+            } else {
+                $dia_fecha_final = date("d", strtotime($fF));
+            }
+            // dd($dia_fecha_final);
+
+
+            $imagenes = Images::whereBetween('created_at', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])->orderBy('id')
+                ->when($request->dateInicio, function ($imagenes) use ($requestDateInicio, $requestDateFinal) {
+
+                    $imagenes = Images::whereBetween('created_at', [("$requestDateInicio 00:00:00"), ("$requestDateFinal 23:59:59")])->orderBy('id');
+
+                    return $imagenes;
+                })
+
+                ->get();
+
+
+            $collection = new Collection;
+            foreach ($imagenes as $imagen) {
+                $collection->push([
+                    'id_imagen' => $imagen->id,
+                    'id_user' => $imagen->user_id,
+                    'created_at' => date('j', strtotime($imagen->created_at)),
+                    'all_date' => date('Y-m-d H:i:s', strtotime($imagen->created_at)),
+                ]);
+            }
+            $collection = json_decode(json_encode($collection));
+
+            //   dd($collection);
+
+            $justificaciones = Justificaciones::whereBetween('created_at', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])->orderBy('id')
+
+                ->when(($requestDateInicio != null), function ($justificaciones) use ($requestDateInicio, $requestDateFinal) {
+
+
+                    $justificaciones = Justificaciones::whereBetween('falta', [($requestDateInicio ), ($requestDateFinal )])->orderBy('id');
+                    return $justificaciones;
+                })
+
+                ->get();
+
+
+
+            $collectionjustificaciones = new Collection;
+            foreach ($justificaciones as $justificacion) {
+                $collectionjustificaciones->push([
+                    'id_imagen' => $justificacion->id,
+                    'id_user' => $justificacion->user_id,
+                    'created_at' => date('Y-m-d H:i:s', strtotime($justificacion->created_at)),
+                    'falta' => $justificacion->falta
+                ]);
+            }
+            $collectionjustificaciones = json_decode(json_encode($collectionjustificaciones));
+        //   dd($collectionjustificaciones);
+            $countMonths = 0;
+
+        return view('/content/dashboard/dashboard-ecommerce', compact('usuarios', 'dia_fecha_final', 'collection', 'collectionjustificaciones', 'countMonths', 'dia_fecha_inicial'));
     }
 }

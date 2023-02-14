@@ -1,4 +1,4 @@
-@extends('layouts/contentLayoutMaster')
+@extends('layouts/contentLayoutSupervisor')
 
 
 @section('title', 'Lista de Usuarios')
@@ -65,12 +65,12 @@
                         <form action="{{ route('admin.historial.userlist') }}" class="d-flex justify-content-between"
                             id="form-serch" method="POST">
                             @csrf
-                            <div class="col-6 col-lg-4">
+                            {{-- <div class="col-6 col-lg-4">
                                 <div class="form-group">
                                     <label for="name">Nombre</label>
                                     <input type="text" class="form-control" id="name" name="nombre">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-4 col-lg-3">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Puesto</label>

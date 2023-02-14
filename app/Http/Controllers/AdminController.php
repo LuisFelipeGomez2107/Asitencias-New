@@ -225,7 +225,7 @@ class AdminController extends Controller
 
     public function createUser(Request $request)
     {
-        //  dd($request->all());
+         
         $id_areas = intval($request->areas);
         if (!isset($request->supervisor)) {
             $ext = 'jpg';
