@@ -131,13 +131,7 @@ class ImageController extends Controller
             $justificacion[$a]['name'] = $j->name;
             $justificacion[$a]['comentario'] = $j->comentario;
             $justificacion[$a]['userJ'] = $j->userName;
-            // $justificacion[$a]['address'] = $j->address;
-            // $justificacion[$a]['user_id'] = $i->user_id;
-            // $porciones = explode(" ",$i->created_at);
-            // $justificacion[$a]['created_at'] = $porciones[1];
-            // Consultar Justificantes
-            // $justificacion[$a]['justificacion'] = $this->consultarJustificantes($i->imageId);
-            // Consultar Justificantes
+      
 
             $a++;
         }

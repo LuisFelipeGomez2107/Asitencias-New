@@ -266,6 +266,7 @@ class TestFacades
             ->get();
         return count($images);
     }
+    
     // Conteos
     public function countStatusMonth($user_id)
     {

@@ -291,3 +291,6 @@ Route::get('getRoles/roles',[\App\Http\Controllers\AdminController::class, 'getR
 
 // user List Routes
 
+// dashboard Instalador RUTAS
+
+Route::post('upluadImage',[\App\Http\Controllers\ImageController::class,'upluadImage'])->name('subirImagen');
