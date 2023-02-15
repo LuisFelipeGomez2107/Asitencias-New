@@ -136,6 +136,7 @@ class DashboardController extends Controller
       $mes2 = date('Y-m', strtotime(date($request->dateFinal)));
       if ($months == 0 && $diff->d < 28 && ($mes1 != $mes2)) {
           $months++;
+          $countMonths = $months;
       }
 
 
