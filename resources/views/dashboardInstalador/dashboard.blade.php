@@ -1,4 +1,4 @@
-@extends('layouts/contentLayoutSupervisor')
+@extends('layouts/contentLayoutInstalador')
 
 @section('title', 'Evidencias Fotograficas')
 
