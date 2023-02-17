@@ -197,6 +197,8 @@ class AdminController extends Controller
         } else if ($request->firma == null) {
         }
 
+
+
         return  back();
     }
 

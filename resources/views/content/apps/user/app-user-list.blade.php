@@ -199,6 +199,7 @@
                 </div>
                 </div>
 
+
                 <!-- Modal CreateUser -->
                 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -290,7 +291,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
                             </div>
                             <div class="modal-body">
-                                <form id="form_edit" method="POST" action="{{ route('user.update') }}"
+                                <form id="form_edit"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
@@ -405,6 +406,38 @@
 
                 });
             </script>
+
+            
+<script>
+    $(document).ready(function() {
+        $('#form_edit').submit(function(event) {
+            // Evita que el formulario se envíe de forma convencional
+            event.preventDefault();
+            let route = "{{ route('user.update') }}";
+            // Envía los datos del formulario utilizando $.ajax()
+            $.ajax({
+                url: route, // Reemplaza por la URL a la que deseas enviar los datos
+                type: 'POST', // Método HTTP utilizado para enviar los datos
+                data: $('#form_edit').serialize(), // Los datos del formulario serializados
+                success: function(response) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Estatus Actualizado',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                },
+                error: function(response) {
+
+                    alert('Ocurrió un error al enviar el formulario.');
+                }
+            });
+        });
+
+
+    });
+</script>
 
             <script>
                 $('.btn_update').on('click', function(e) {
@@ -628,6 +661,78 @@
                     }
 
                 });
+
+
+                // Open Modal Sanitize
+                $("#openModalAdd").on('click', function() {
+                    // if($("#form select option").length > 0){
+                    //     $("#form select").empty()
+                    // }
+                    $("#form input[type=text] , #form textarea,form input[type=email],form input[type=password]  ").each(
+                        function() {
+                            this.value = ''
+                        });
+                })
+                // Open Modal Sanitize
+
+
+                // Status Switch
+                $(".switchStatusUser").on('click', function() {
+                    let status;
+                    if ($(this).hasClass('fa-toggle-on')) {
+                        $(this).removeClass('fa-toggle-on');
+                        $(this).addClass('fa-toggle-off');
+                        status = 0;
+                    } else {
+                        $(this).removeClass('fa-toggle-off');
+                        $(this).addClass('fa-toggle-on');
+                        status = 1;
+                    }
+                    id = $(this).data('id')
+                    // alert(status);
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: "updateStatusUsers",
+                        data: {
+                            id: id,
+                            status: status
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            if (data == 1) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Estatus Actualizado',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                            }
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    });
+                })
+
+
+                // Status Switch
+                $(".fa-qrcode").on('click', function() {
+                    createQr($(this).data('id'));
+                });
+
+                function createQr(id) {
+                    var url = location.host;
+                    url = "https://" + url
+                    new QRious({
+                        element: document.querySelector(`#qr${id}`),
+                        value: url + "/qrCode/" + id, // La URL o el texto
+                        size: 150,
+                        backgroundAlpha: 0, // 0 para fondo transparente
+                        level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+                    });
+                }
+
+           
             </script>
 
 
