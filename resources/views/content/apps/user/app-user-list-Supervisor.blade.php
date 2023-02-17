@@ -387,7 +387,18 @@
                                     'Guardado con Exito',
                                     'success'
                                 )
+                                {
+                                    $("#addUserModal").modal("hide");
+                                    $(".modal-backdrop").remove();
+                                    $('body').removeClass('modal-open');
+                                    $("#addUserModal").removeClass("show");
+                                    $("#addUserModal").removeAttr("aria-modal");
+                                    $("#addUserModal").removeAttr("role");
+                                    $("#addUserModal").attr("aria-hidden", "true");
+                                    $("#addUserModal").css('display', 'none')
+                                }
 
+                              
                             },
                             error: function(response) {
 
@@ -419,6 +430,7 @@
                                     showConfirmButton: false,
                                     timer: 1000
                                 })
+                              
                             },
                             error: function(response) {
 

@@ -392,7 +392,9 @@
                                     'Excelente',
                                     'Guardado con Exito',
                                     'success'
-                                ) {
+                                    
+                                ) 
+                                {
                                     $("#addUserModal").modal("hide");
                                     $(".modal-backdrop").remove();
                                     $('body').removeClass('modal-open');
@@ -402,6 +404,7 @@
                                     $("#addUserModal").attr("aria-hidden", "true");
                                     $("#addUserModal").css('display', 'none')
                                 }
+                                
 
                             },
                             error: function(response) {
@@ -434,16 +437,7 @@
                                     title: 'Estatus Actualizado',
                                     showConfirmButton: false,
                                     timer: 1000
-                                }) {
-                                    $("#modalEdit").modal("hide");
-                                    $(".modal-backdrop").remove();
-                                    $('body').removeClass('modal-open');
-                                    $("#modalEdit").removeClass("show");
-                                    $("#modalEdit").removeAttr("aria-modal");
-                                    $("#modalEdit").removeAttr("role");
-                                    $("#modalEdit").attr("aria-hidden", "true");
-                                    $("#modalEdit").css('display', 'none')
-                                }
+                                }) 
                             },
                             error: function(response) {
 
