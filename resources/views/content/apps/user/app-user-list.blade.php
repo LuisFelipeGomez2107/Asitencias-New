@@ -291,8 +291,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
                             </div>
                             <div class="modal-body">
-                                <form id="form_edit"
-                                    enctype="multipart/form-data">
+                                <form id="form_edit" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
@@ -393,7 +392,16 @@
                                     'Excelente',
                                     'Guardado con Exito',
                                     'success'
-                                )
+                                ) {
+                                    $("#addUserModal").modal("hide");
+                                    $(".modal-backdrop").remove();
+                                    $('body').removeClass('modal-open');
+                                    $("#addUserModal").removeClass("show");
+                                    $("#addUserModal").removeAttr("aria-modal");
+                                    $("#addUserModal").removeAttr("role");
+                                    $("#addUserModal").attr("aria-hidden", "true");
+                                    $("#addUserModal").css('display', 'none')
+                                }
 
                             },
                             error: function(response) {
@@ -407,37 +415,46 @@
                 });
             </script>
 
-            
-<script>
-    $(document).ready(function() {
-        $('#form_edit').submit(function(event) {
-            // Evita que el formulario se envíe de forma convencional
-            event.preventDefault();
-            let route = "{{ route('user.update') }}";
-            // Envía los datos del formulario utilizando $.ajax()
-            $.ajax({
-                url: route, // Reemplaza por la URL a la que deseas enviar los datos
-                type: 'POST', // Método HTTP utilizado para enviar los datos
-                data: $('#form_edit').serialize(), // Los datos del formulario serializados
-                success: function(response) {
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Estatus Actualizado',
-                        showConfirmButton: false,
-                        timer: 1000
-                    })
-                },
-                error: function(response) {
+            <script>
+                $(document).ready(function() {
+                    $('#form_edit').submit(function(event) {
+                        // Evita que el formulario se envíe de forma convencional
+                        event.preventDefault();
+                        let route = "{{ route('user.update') }}";
+                        // Envía los datos del formulario utilizando $.ajax()
+                        $.ajax({
+                            url: route, // Reemplaza por la URL a la que deseas enviar los datos
+                            type: 'POST', // Método HTTP utilizado para enviar los datos
+                            data: $('#form_edit').serialize(), // Los datos del formulario serializados
+                            success: function(response) {
 
-                    alert('Ocurrió un error al enviar el formulario.');
-                }
-            });
-        });
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Estatus Actualizado',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                }) {
+                                    $("#modalEdit").modal("hide");
+                                    $(".modal-backdrop").remove();
+                                    $('body').removeClass('modal-open');
+                                    $("#modalEdit").removeClass("show");
+                                    $("#modalEdit").removeAttr("aria-modal");
+                                    $("#modalEdit").removeAttr("role");
+                                    $("#modalEdit").attr("aria-hidden", "true");
+                                    $("#modalEdit").css('display', 'none')
+                                }
+                            },
+                            error: function(response) {
+
+                                alert('Ocurrió un error al enviar el formulario.');
+                            }
+                        });
+                    });
 
 
-    });
-</script>
+                });
+            </script>
 
             <script>
                 $('.btn_update').on('click', function(e) {
@@ -731,8 +748,6 @@
                         level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
                     });
                 }
-
-           
             </script>
 
 

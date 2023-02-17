@@ -42,4 +42,117 @@ class SupervisorController extends Controller
 
         return view('content/apps/user/app-user-list-Supervisor', compact('usuario'));
     }
+
+    public function createUser(Request $request)
+    {
+
+        $request->validate([
+            'nombre' => 'required',
+            'email' => 'required',
+            'tipoUser' => 'required',
+            'password' => 'required'
+        ]);
+
+        $id_areas = intval($request->areas);
+        if (!isset($request->supervisor)) {
+            $ext = 'jpg';
+            $nombre = Str::random(30) . '.' . $ext;
+            $nombreFirma = Str::random(30) . '.' . $ext;
+            $user = new User();
+            $user->name = $request->nombre;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = Hash::make($request->password);
+            $user->areas_id = $id_areas;
+
+
+            if ($request->imagen) {
+                $user->profile_photo_path = $nombre;
+
+                $ext = $request->file('imagen')->extension();
+                $tmpDir = $user->id;
+                $carpeta = "personales";
+                $imagen = Img::make($request->file('imagen'))
+
+                    ->encode('jpeg');
+                Storage::disk(env('ROUTE'))->put($carpeta . "/" . $tmpDir . "/" . $nombre, $imagen);
+            }
+            if ($request->firma) {
+                $user->firma = $nombreFirma;
+
+                $ext = $request->file('imagen')->extension();
+                $tmpDir = $user->id;
+                $carpeta = "personales";
+
+                $imageF = Img::make($request->file('firma'))
+
+                    ->encode('jpeg');
+                Storage::disk(env('ROUTE'))->put($carpeta . "/" . $tmpDir . "/" . $nombreFirma, $imageF);
+            }
+
+            $user->curp = $request->curp;
+            $user->nss = $request->nss;
+            $user->save();
+            $user->assignRole($request->tipoUser);
+            $userHasStatus = new users_has_status;
+            $userHasStatus->user_id = $user->id;
+            $userHasStatus->status = 1;
+            $userHasStatus->save();
+
+
+
+            return ['succes' => "Guardado con exito"];
+        } else {
+            $ext = 'jpg';
+            $nombre = Str::random(30) . '.' . $ext;
+            $nombreFirma = Str::random(30) . '.' . $ext;
+            $user = new User();
+            $user->name = $request->nombre;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = Hash::make($request->password);
+            $user->areas_id = $id_areas;
+
+
+            if ($request->imagen) {
+                $user->profile_photo_path = $nombre;
+
+                $ext = $request->file('imagen')->extension();
+                $tmpDir = $user->id;
+                $carpeta = "personales";
+
+                $imagen = Img::make($request->file('imagen'))
+
+                    ->encode('jpeg');
+                Storage::disk(env('ROUTE'))->put($carpeta . "/" . $tmpDir . "/" . $nombre, $imagen);
+            }
+            if ($request->firma) {
+                $user->firma = $nombreFirma;
+
+                $ext = $request->file('imagen')->extension();
+                $tmpDir = $user->id;
+                $carpeta = "personales";
+
+                $imageF = Img::make($request->file('firma'))
+
+                    ->encode('jpeg');
+                Storage::disk(env('ROUTE'))->put($carpeta . "/" . $tmpDir . "/" . $nombreFirma, $imageF);
+            }
+
+            $user->curp = $request->curp;
+            $user->nss = $request->nss;
+            $user->save();
+            $user->assignRole($request->tipoUser);
+            $super = new Supervisor_has_user();
+            $super->user_id = $user->id;
+            $super->supevisor_id = $request->supervisor;
+            $super->save();
+            $userHasStatus = new users_has_status;
+            $userHasStatus->user_id = $user->id;
+            $userHasStatus->status = 1;
+            $userHasStatus->save();
+
+            return  ['succes' => "Guardado con exito con supervisor"];
+        }
+    }
 }

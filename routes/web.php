@@ -294,3 +294,6 @@ Route::get('getRoles/roles',[\App\Http\Controllers\AdminController::class, 'getR
 // dashboard Instalador RUTAS
 
 Route::post('upluadImage',[\App\Http\Controllers\ImageController::class,'upluadImage'])->name('subirImagen');
+
+
+Route::post('createUser/Supervisor',[\App\Http\Controllers\SupervisorController::class,'createUser'])->name('crear.usuarioSupervisor');

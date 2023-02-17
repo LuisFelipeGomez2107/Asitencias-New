@@ -37,9 +37,9 @@
         </style>
         <!-- Dashboard Analytics Start -->
         <section id="dashboard-analytics">
-            
+
             @php
-            
+                
                 $user = Auth::user();
             @endphp
             {{-- NavBar --}}
@@ -138,8 +138,7 @@
                                                             data-nombre="{{ $users->name }}"
                                                             data-email="{{ $users->email }}"
                                                             data-phone="{{ $users->phone }}"
-                                                            data-area="{{ $users->Areas }}"
-                                                            data-nss="{{ $users->nss }}"
+                                                            data-area="{{ $users->Areas }}" data-nss="{{ $users->nss }}"
                                                             data-curp="{{ $users->curp }}"
                                                             data-image="{{ $users->profile_photo_path }}"
                                                             data-firma="{{ $users->firma }}"></i>
@@ -209,7 +208,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
                             </div>
                             <div class="modal-body">
-                                <form id="form" enctype="multipart/form-data">
+                                <form id="miFormulario" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
@@ -273,7 +272,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" id="enviar">Guardar</button>
+                                <button type="submit" class="btn btn-primary" id="enviar">Guardar</button>
                                 </form>
                             </div>
                         </div>
@@ -290,8 +289,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
                             </div>
                             <div class="modal-body">
-                                <form id="form_edit" method="POST" action="{{ route('user.update') }}"
-                                    enctype="multipart/form-data">
+                                <form id="form_edit" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
@@ -369,10 +367,74 @@
                         {{-- Modal Edit --}}
 
             </main>
+
+
             <script>
-                // $('.btn_update').on('click', function(e) {
-                //     e.preventDefault();
-                // });
+                $(document).ready(function() {
+                    $('#miFormulario').submit(function(event) {
+                        // Evita que el formulario se envíe de forma convencional
+                        event.preventDefault();
+                        let route = "{{ route('crear.usuarioSupervisor') }}";
+                        // Envía los datos del formulario utilizando $.ajax()
+                        $.ajax({
+                            url: route, // Reemplaza por la URL a la que deseas enviar los datos
+                            type: 'POST', // Método HTTP utilizado para enviar los datos
+                            data: $('#miFormulario').serialize(), // Los datos del formulario serializados
+                            success: function(response) {
+
+                                Swal.fire(
+                                    'Excelente',
+                                    'Guardado con Exito',
+                                    'success'
+                                )
+
+                            },
+                            error: function(response) {
+
+                                alert('Ocurrió un error al enviar el formulario.');
+                            }
+                        });
+                    });
+
+
+                });
+            </script>
+
+            <script>
+                $(document).ready(function() {
+                    $('#form_edit').submit(function(event) {
+                        // Evita que el formulario se envíe de forma convencional
+                        event.preventDefault();
+                        let route = "{{ route('user.update') }}";
+                        // Envía los datos del formulario utilizando $.ajax()
+                        $.ajax({
+                            url: route, // Reemplaza por la URL a la que deseas enviar los datos
+                            type: 'POST', // Método HTTP utilizado para enviar los datos
+                            data: $('#form_edit').serialize(), // Los datos del formulario serializados
+                            success: function(response) {
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Estatus Actualizado',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                            },
+                            error: function(response) {
+
+                                alert('Ocurrió un error al enviar el formulario.');
+                            }
+                        });
+                    });
+
+
+                });
+            </script>
+
+            <script>
+                $('.btn_update').on('click', function(e) {
+                    e.preventDefault();
+                });
 
                 // traemos dinamicamente las areas de nuestra base
                 $(function() {
@@ -414,10 +476,10 @@
                 });
 
                 // traemos los roles dentro de nuestor formulario para crear usuarios
-                
+
                 $(function() {
-                        let route = "{{ route('roles.get') }}";
-                        $.ajax({
+                    let route = "{{ route('roles.get') }}";
+                    $.ajax({
                         type: 'GET', //THIS NEEDS TO BE GET
                         url: route,
                         success: function(data) {
@@ -472,8 +534,8 @@
                         $("#areasForm").removeClass('d-none')
                         let route = "{{ route('areas.get') }}"
                         $.ajax({
-                                type: 'GET', //THIS NEEDS TO BE GET
-                                url: route,
+                            type: 'GET', //THIS NEEDS TO BE GET
+                            url: route,
                             success: function(data) {
                                 console.log(data)
                                 data.forEach(function(element) {
@@ -497,93 +559,133 @@
 
                 });
 
-                   // Validation form addUser
-        var form = "#form";
-        // $(form).validate({
-        //     rules: {
-        //         nombre: {
-        //             required: true
-        //         },
-        //         email: {
-        //             required: true,
-        //             email: true
-        //         },
-        //         tipoUser: {
-        //             required: true
-        //         },
-        //         supervisor: {
-        //             required: true
-        //         },
-        //         password: {
-        //             required: true
-        //         },
-        //     },
-        //     messages: {
-        //         nombre: {
-        //             required: " * Ingrese un Nombre por favor"
-        //         },
-        //         email: {
-        //             required: " * Ingrese un email por favor",
-        //             email: " * Ingrese un email valido por favor"
-        //         },
-        //         tipoUser: {
-        //             required: " * Ingrese un tipo de usuario"
-        //         },
-        //         areas: {
-        //             required: " * Asignar un area"
-        //         },
-        //         supervisor: {
-        //             required: " * Ingrese un supervisor encargado por favor"
-        //         },
-        //         password: {
-        //             required: " * Ingrese una contraseña por favor"
-        //         },
-        //     }
-        // });
+                //  Update User get elements
+                $(".fa-pen-to-square").on('click', function() {
+                    console.log("hello")
+                    // Sanitize form prev
+                    // alert($("#form_edit select option").length)
+                    if ($("#form_edit select option").length > 0) {
+                        $("#form_edit select").empty()
+                    }
+                    $("#form_edit input[type=text] , #form_edit textarea").each(function() {
+                        this.value = ''
+                    });
+                    $("#form_edit img").each(function() {
+                        $(this).attr('src', '')
+                    });
+                    // Sanitize form prev
+                    // Inputs
+                    $('#nombre_edit').val($(this).data('nombre'));
+                    $('#email_edit').val($(this).data('email'));
+                    $('#phone_edit').val($(this).data('phone'));
+                    $('#nss_edit').val($(this).data('nss'));
+                    $('#curp_edit').val($(this).data('curp'));
+                    $("#id_edit").val($(this).data('id'));
 
 
-                    $("#enviar").on('click', function() {
-                        // if ($(form).valid()) {
-                            $("#addUserModal").modal("hide");
-                            $(".modal-backdrop").remove();
-                            $('body').removeClass('modal-open');
-                            $("#addUserModal").removeClass("show");
-                            $("#addUserModal").removeAttr("aria-modal");
-                            $("#addUserModal").removeAttr("role");
-                            $("#addUserModal").attr("aria-hidden", "true");
-                            $("#addUserModal").css('display', 'none')
-                            // let route = "{{ route('crear.usuario') }}";
-                            $.ajax({
-                                // type: 'POST', //THIS NEEDS TO BE GET
-                                // url: route,
-                                // data: new FormData(form),
-                                // processData: false,
-                                // contentType: false,
-                                success: function(data) {
-                                    // if(data.status == 200){
-                                    console.log(data)
-                                    Swal.fire(
-                                        'Excelente',
-                                        'Guardado con Exito',
-                                        'success'
-                                    )
-    
-                                },
-                                error: function(data) {
-                                    if (data.status == 500) {
-                                        Swal.fire({
-                                            position: 'center',
-                                            icon: 'warning',
-                                            title: 'Usuario ya registrado.',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        })
-                                    }
-                                    console.log(data);
-                                }
-                            });
-                        
-                    })
+                    if ($(this).data('image') == "" || $(this).data('image') == 'undefined') {
+                        $("#conatinerImagen").hide();
+                    } else {
+                        $('#img_view').attr('src', "/storage/personales/" + $(this).data('id') + "/" + $(this).data(
+                            'image'));
+                    }
+                    if ($(this).data('firma') == "" || $(this).data('firma') == 'undefined') {
+                        $("#conatinerFirma").hide();
+                    } else {
+                        $('#firma_view').attr('src', "/storage/personales/" + $(this).data('id') + "/" + $(this).data(
+                            'firma'));
+                    }
+                    // traemos dinamicamente las areas de nuestra base
+                    $(function() {
+                        let route = "{{ route('areas.get') }}";
+                        $.ajax({
+                            type: 'GET', //THIS NEEDS TO BE GET
+                            url: route,
+                            success: function(data) {
+                                data.forEach(function(element) {
+                                    $("#areasSelect_edit").append(
+                                        "<option class='super' value='" + element.id +
+                                        "'>" + element.name + "</option>")
+                                });
+                            },
+                            error: function() {
+                                console.log(data);
+                            }
+                        })
+                    });
+
+                    // Inputs
+                })
+
+                // Open Modal Sanitize
+                $("#openModalAdd").on('click', function() {
+                    // if($("#form select option").length > 0){
+                    //     $("#form select").empty()
+                    // }
+                    $("#form input[type=text] , #form textarea,form input[type=email],form input[type=password]  ").each(
+                        function() {
+                            this.value = ''
+                        });
+                })
+                // Open Modal Sanitize
+
+
+                // Status Switch
+                $(".switchStatusUser").on('click', function() {
+                    let status;
+                    if ($(this).hasClass('fa-toggle-on')) {
+                        $(this).removeClass('fa-toggle-on');
+                        $(this).addClass('fa-toggle-off');
+                        status = 0;
+                    } else {
+                        $(this).removeClass('fa-toggle-off');
+                        $(this).addClass('fa-toggle-on');
+                        status = 1;
+                    }
+                    id = $(this).data('id')
+                    // alert(status);
+                    $.ajax({
+                        type: 'GET', //THIS NEEDS TO BE GET
+                        url: "updateStatusUsers",
+                        data: {
+                            id: id,
+                            status: status
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            if (data == 1) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Estatus Actualizado',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                            }
+                        },
+                        error: function() {
+                            console.log(data);
+                        }
+                    });
+                })
+
+
+                // Status Switch
+                $(".fa-qrcode").on('click', function() {
+                    createQr($(this).data('id'));
+                });
+
+                function createQr(id) {
+                    var url = location.host;
+                    url = "https://" + url
+                    new QRious({
+                        element: document.querySelector(`#qr${id}`),
+                        value: url + "/qrCode/" + id, // La URL o el texto
+                        size: 150,
+                        backgroundAlpha: 0, // 0 para fondo transparente
+                        level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+                    });
+                }
+
             </script>
         </section>
 
