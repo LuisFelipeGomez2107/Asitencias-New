@@ -152,6 +152,7 @@ class AdminController extends Controller
 
     public function update(Request $request)
     {
+   
 
         $ext = 'jpg';
         $nombre = Str::random(30) . '.' . $ext;
@@ -225,7 +226,15 @@ class AdminController extends Controller
 
     public function createUser(Request $request)
     {
-         
+
+     
+      $request->validate([
+        'nombre'=>'required',
+        'email'=>'required',
+        'tipoUser'=>'required',
+        'password'=>'required'
+      ]);
+
         $id_areas = intval($request->areas);
         if (!isset($request->supervisor)) {
             $ext = 'jpg';
@@ -271,7 +280,9 @@ class AdminController extends Controller
             $userHasStatus->status = 1;
             $userHasStatus->save();
 
-            return ['succes' => "Guardado con exito"];
+            $success = 'Guardado con exito';
+
+            return back();
         } else {
             $ext = 'jpg';
             $nombre = Str::random(30) . '.' . $ext;
@@ -320,16 +331,16 @@ class AdminController extends Controller
             $userHasStatus->user_id = $user->id;
             $userHasStatus->status = 1;
             $userHasStatus->save();
-            return  ['succes' => "Guardado con exito con supervisor"];
+            $success = 'Guardado con exito';
+
+            return back();
         }
     }
 
-    
+
     public function getRoles()
     {
         $roles = Roles::where('name', '!=', 'Admin')->get();
         return $roles;
     }
-
-
 }

@@ -158,6 +158,13 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [   
+    'nombre' => 'nombre de usuario',
+    'email' => 'correo electrónico',],
+
+    'messages' => [
+        'required' => 'El campo :attribute es obligatorio.',
+        // Agregue más mensajes de error aquí
+    ],
 
 ];
